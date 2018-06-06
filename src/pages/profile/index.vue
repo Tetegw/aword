@@ -1,5 +1,4 @@
 <template>
-<scroll-view scroll-y :style="{'height': windowHeight}"   @scroll="scroll">
   <div class="profile-wrapper">
     <div class="avatar">
       <image mode="aspectFill" class="avatar-img" :src="userInfo.avatarUrl" v-show="userInfo.avatarUrl"/>
@@ -12,7 +11,6 @@
     <div class="labels-fill" v-show="fixed"></div>
     <v-Works></v-Works>
   </div>
-</scroll-view>
 </template>
 
 <script>
@@ -38,11 +36,17 @@ export default {
       }
     })
   },
-  mounted() {
+  mounted () {
     wx.createSelectorQuery().select('#tab-wrapper').boundingClientRect((rect) => {
       this.boundingClientRectTop = rect.top
-    console.log(this.boundingClientRectTop)
     }).exec()
+  },
+  onPageScroll(e) {
+    if (e.scrollTop >= this.boundingClientRectTop) {
+      this.fixed = true
+    } else {
+      this.fixed = false
+    }
   },
   computed: {
     userInfo () {
@@ -53,14 +57,6 @@ export default {
     }
   },
   methods: {
-    scroll (e) {
-      console.log(e.target.scrollTop)
-      if (e.target.scrollTop >= this.boundingClientRectTop) {
-        this.fixed = true
-      } else {
-        this.fixed = false
-      }
-    },
     // 更新第三方服务器用户信息
     updateUserInfo (e) {
       upInfo(e.target.userInfo).then((res) => {
@@ -109,6 +105,7 @@ export default {
     margin-top: 20px;
     margin-bottom: 30px;
     font-size: 15px;
+    height: 22px;
     color: #666;
   }
   .labels{

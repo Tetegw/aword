@@ -91,7 +91,7 @@ export default {
   .confirm-wrapper{
     position: absolute;
     z-index: 10;
-    top: 34%;
+    top: 40%;
     left: 50%;
     padding-top: 14px;
     transform: translate(-50%,-50%);
@@ -110,7 +110,9 @@ export default {
         display: inline-block;
         text-align: left;
         padding-left: 10px;
-        border: 1px solid #eee;
+        line-height: 20px;
+        height: 20px;
+        border: 1px solid #eee; /*px*/
         width: 70%;
       }
     }
@@ -129,6 +131,7 @@ export default {
           border-right: 1px solid #eee; /*px*/
           text-align: center;
           display: block;
+          line-height: 25px;
         }
         &:last-child{
           span{
