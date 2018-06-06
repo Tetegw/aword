@@ -1,6 +1,6 @@
 <script>
 import { auth, currentUser } from '@/bmob.js'
-import store from '@/store.js';
+import store from '@/store.js'
 
 export default {
   data(){
@@ -8,6 +8,12 @@ export default {
   },
   created() {
     this.login()
+  },
+  computed: {
+    showToast () {
+      console.log(store.state.showToast)
+      return store.state.showToast
+    }
   },
   methods:{
      // 登录
