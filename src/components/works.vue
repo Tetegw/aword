@@ -4,14 +4,20 @@
         <li>1</li>
         <li>2</li>
         <li>3</li>
-        <li>4</li>
+        <li @click="makePicture">+</li>
       </ul>
   </div>
 </template>
 
 <script>
 export default {
-
+  methods: {
+    makePicture() {
+      wx.navigateTo({
+        url: '../make/main'
+      })
+    }
+  } 
 }
 </script>
 

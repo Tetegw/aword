@@ -5,7 +5,7 @@
       <li v-for="(item, index) in list" :key="index" :class="{'active': currentLabelIndex === index}" @click="checkedLabel(index)">
         <span>{{item}}</span><i></i>
       </li>
-      <li @click="showModel = true">+</li>
+      <li @click="showModel = true" v-if="addBtn">+</li>
     </ul>
     <v-Confirm
       :showModel="showModel"
@@ -29,10 +29,16 @@ export default {
       fixed: false
     }
   },
+  props: {
+    addBtn: {
+      type: Boolean,
+      default: true
+    }
+  },
   methods: {
     checkedLabel (index) {
       this.currentLabelIndex = index
-      console.log('选择的tab索引', index)
+      this.$emit('emitChooseItemIndex', index)
     },
     emitHideModel () {
       this.showModel = false
@@ -81,7 +87,9 @@ export default {
         border-right: 1px solid #eee; /*px*/
       }
       &:last-child{
-        border-right: none;
+        span{
+          border-right: none;
+        }
       }
       &.active i{
         position: absolute;

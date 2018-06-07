@@ -6,7 +6,9 @@
     </div>
     <div class="nickname">{{userInfo.nickName}}</div>
     <div class="labels" :class="{'fixed': fixed}">
-      <v-Labels></v-Labels>
+      <v-Labels
+        @emitChooseItemIndex="emitChooseItemIndex"
+      ></v-Labels>
     </div>
     <div class="labels-fill" v-show="fixed"></div>
     <v-Works></v-Works>
@@ -66,6 +68,9 @@ export default {
       }).catch((err) => {
         console.log('第三方更新用户信息失败', err)
       })
+    },
+    emitChooseItemIndex(index) {
+      console.log('选择了,', index)
     }
   },
   components: {
