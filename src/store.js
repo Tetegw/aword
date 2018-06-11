@@ -11,7 +11,7 @@ const store = new Vuex.Store({
     userInfo: {},
     hasUserInfo: false,
     makePictureInfo: {
-      content: '',
+      content: '111',
       author: '',
       labelItem: '默认',
       privacy: false

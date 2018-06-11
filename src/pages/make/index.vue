@@ -72,7 +72,7 @@ export default {
         privacy: this.privacy || false
       })
       wx.navigateTo({
-        url: '../upload/main'
+        url: '../picture/main'
       })
     }
   },
