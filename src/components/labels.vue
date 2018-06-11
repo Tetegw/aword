@@ -5,7 +5,7 @@
       <li v-for="(item, index) in list" :key="index" :class="{'active': currentLabelIndex === index}" @click="checkedLabel(index)">
         <span>{{item}}</span><i></i>
       </li>
-      <li @click="showModel = true" v-if="addBtn">+</li>
+      <li @click="clickAddBtn" v-if="addBtn">+</li>
     </ul>
     <v-Confirm
       :showModel="showModel"
@@ -36,15 +36,25 @@ export default {
     }
   },
   methods: {
+    // 选择标签，emit出去
     checkedLabel (index) {
       this.currentLabelIndex = index
-      this.$emit('emitChooseItemIndex', index)
+      this.$emit('emitChooseItem', index, this.list[index])
     },
+    // 点击+，显示弹窗，emit显示弹窗事件
+    clickAddBtn () {
+      this.showModel = true
+      this.$emit('emitShowModel')
+    },
+    // 隐藏弹窗，emit隐藏弹窗的事件
     emitHideModel () {
       this.showModel = false
+      this.$emit('emitHideModel')      
     },
+    // TODO: 确定数据，隐藏弹窗，emit出确定的数据和索引
     emitConfirm(payload) {
       console.log(payload)
+      this.$emit('emitConfirm', payload)
       this.showModel = false
     }
   },

@@ -9,7 +9,13 @@ const store = new Vuex.Store({
   state: {
     count: 0,
     userInfo: {},
-    hasUserInfo: false
+    hasUserInfo: false,
+    makePictureInfo: {
+      content: '',
+      author: '',
+      labelItem: '默认',
+      privacy: false
+    }
   },
   mutations: {
     storeUserInfo (state, payload) {
@@ -17,6 +23,10 @@ const store = new Vuex.Store({
     },
     storeHasUserInfo(state, payload) {
       state.hasUserInfo = payload
+    },
+    storeMakePictureInfo(state, payload) {
+      state.makePictureInfo = Object({}, state.makePictureInfo, payload)
+      console.log(payload)
     }
   }
 })

@@ -2,54 +2,78 @@
   <div class="make-wrapper">
       <div class="content">
         <p class="title">正文</p>
-        <textarea class="text-input" name="" id="" cols="30" rows="10"></textarea>
+        <textarea class="text-input" name="" id="" cols="30" rows="10" :disabled="InputDisabled" v-model="contentInput"></textarea>
       </div>
       <div class="author">
         <p class="title">出处</p>
         <div>
           <div class="btn" @click="inputQuotes">《》</div>
-          <input class="text-input" type="text" v-model="authorInput" :focus="authorInputFocus">
+          <input class="text-input" type="text" v-model="authorInput" :disabled="InputDisabled">
         </div>
       </div>
       <div class="label">
         <p class="title">标签</p>
         <v-Labels
-          :addBtn="false"
-          @emitChooseItemIndex="emitChooseItemIndex"
+          @emitChooseItem="emitChooseItem"
+          @emitConfirm="emitConfirm"
+          @emitShowModel="emitShowModel"
         ></v-Labels>
       </div>
       <div class="privacy">
-        <span class="btn" @click="setPrivacy(true)" v-show="!privacy">设为隐私</span>
-        <span class="btn" @click="setPrivacy(false)" v-show="privacy">设为公开</span>
+        <span class="btn" @click="setPrivacy"> {{ privacy ? '设为公开' : '设为隐私'}}</span>
       </div>
-      <div class="close" :class="{'active': loaded}"></div>
+      <div class="next" @click="submit"></div>
   </div>
 </template>
 
 <script>
-import Labels from '@/components/labels.vue';
+import Labels from '@/components/labels.vue'
+import store from '@/store.js'
+
 export default {
   data() {
     return {
-      loaded: false,
+      contentInput: '',
       authorInput: '',
-      authorInputFocus: true,
-      privacy: false
+      labelItem: '',
+      privacy: false,
+      InputDisabled: false
     }
   },
-  onLoad () {
-    this.loaded = true
-  },
   methods: {
+    // 输入书名号
     inputQuotes() {
       this.authorInput = this.authorInput + '《》'
-      this.authorInputFocus = true
     },
-    emitChooseItemIndex(index) {
-      console.log('选中了', index)
+    // 接受弹窗显示的回调
+    emitShowModel () {
+      this.InputDisabled = true
     },
-    setPrivacy(flag) {
-      this.privacy = flag
+    // 接受选中Label的回调
+    emitChooseItem(index, item) {
+      console.log('选中了', index, item)
+      this.labelItem = item
+    },
+    // 接受弹窗确认的回调
+    emitConfirm (payload) {
+      // 获取添加便签的数据
+      console.log(payload)
+    },
+    // 设置隐私和公开
+    setPrivacy() {
+      this.privacy = !this.privacy
+    },
+    // 提交本页内容，存入store
+    submit () {
+      store.commit('storeMakePictureInfo', {
+        content: this.contentInput,
+        author: this.authorInput,
+        labelItem: this.labelItem || '默认',
+        privacy: this.privacy || false
+      })
+      wx.navigateTo({
+        url: '../upload/main'
+      })
     }
   },
   components: {
@@ -106,32 +130,28 @@ export default {
       float: right;
     }
   }
-  .close{
+  .next{
     position: fixed;
     bottom: 50px;
     left: 50%;
     width: 30px;
     height: 30px;
-    transform: translate(-50%);
-    transition: all .8s;
-    &.active{
-      transform: translate(-50%) rotate(-45deg);
-    }
+    transform: translate3d(-50%, 0, 0) rotate(45deg);
     &:before{
       content: '';
       position: absolute;
-      top: 14px;
-      left: 0;
-      width: 30px;
+      top: 9px;
+      left: 4px;
+      width: 15px;
       height: 1px;
       background: #666;
     }
     &:after{
       content: '';
       position: absolute;
-      left: 14px;
-      top: 0;
-      height: 30px;
+      left: 18px;
+      top: 9px;
+      height: 15px;
       width: 1px;
       background: #666;
     }

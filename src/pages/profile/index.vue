@@ -7,7 +7,7 @@
     <div class="nickname">{{userInfo.nickName}}</div>
     <div class="labels" :class="{'fixed': fixed}">
       <v-Labels
-        @emitChooseItemIndex="emitChooseItemIndex"
+        @emitChooseItem="emitChooseItem"
       ></v-Labels>
     </div>
     <div class="labels-fill" v-show="fixed"></div>
@@ -69,7 +69,7 @@ export default {
         console.log('第三方更新用户信息失败', err)
       })
     },
-    emitChooseItemIndex(index) {
+    emitChooseItem(index) {
       console.log('选择了,', index)
     }
   },

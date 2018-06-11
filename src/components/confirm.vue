@@ -49,12 +49,13 @@ export default {
   watch:{
     showModel(newVal) {
       this.show = newVal
+      this.$emit('emitShowModel')
     }
   },
   methods:{
     hideModel() {
       this.$emit('emitHideModel')
-      this.inputLabel = ''      
+      this.inputLabel = ''
     },
     emitConfirm() {
       let inputLabel = this.inputLabel.trim()
