@@ -2,9 +2,10 @@
   <div class="confirm-com-wrapper" v-show="show" >
     <div class="mask" @click="hideModel" @touchmove.stop.prevent></div>
     <div class="confirm-wrapper" @touchmove.stop.prevent>
-      <div class="title">{{title}}</div>
+      <div class="title" v-show="title">{{title}}</div>
       <div class="content">
-        <input class="input-label" type="text" placeholder="新标签" v-model="inputLabel">
+        <input v-if="!content" class="input-label" type="text" placeholder="新标签" v-model="inputLabel">
+        <span v-show="content">{{content}}</span>
       </div>
       <div class="footer">
         <div class="btn" @touchstart="confirmTouchActive = true" @touchend="confirmTouchActive = false" :class="{'touch-active': confirmTouchActive}" @click="emitConfirm">
@@ -37,6 +38,10 @@ export default {
       type: String,
       default: ''
     },
+    content: {
+      type: String,
+      default: ''
+    },
     confirm: {
       type: String,
       default: '确定'
@@ -59,7 +64,7 @@ export default {
     },
     emitConfirm() {
       let inputLabel = this.inputLabel.trim()
-      if (!inputLabel) {
+      if (!inputLabel && !this.content) {
         wx.showToast({
           title: '标签不能为空',
           icon: 'none'
@@ -105,7 +110,7 @@ export default {
       padding: 5px 0;
     }
     .content{
-      padding: 15px 0;
+      padding: 22px 0;
       text-align: center;
       .input-label{
         display: inline-block;

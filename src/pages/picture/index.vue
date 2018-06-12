@@ -50,13 +50,13 @@ export default {
     changeMode (index, type) {
       if (type === 'pic') {
         switch (index) {
-          case 1:
+          case 0:
             this.picClass = 'default'
             break;
-          case 2:
+          case 1:
             this.picClass = 'circle'
             break;
-          case 3:
+          case 2:
             this.picClass = 'skew'
             break;
         
@@ -66,24 +66,24 @@ export default {
         }
       } else if (type === 'font') {
         switch (index) {
-          case 1:
-            this.fontClass = 'across-left'
-            break;
-          case 2:
-            this.fontClass = 'across-center'
-            break;
-          case 3:
-            this.fontClass = 'across-right'
-            break;
-          case 4:
+          case 0:
             this.fontClass = 'vertical-left'
             break;
-          case 5:
+          case 1:
             this.fontClass = 'vertical-right'
+            break;
+          case 2:
+            this.fontClass = 'across-left'
+            break;
+          case 3:
+            this.fontClass = 'across-center'
+            break;
+          case 4:
+            this.fontClass = 'across-right'
             break;
         
           default:
-            this.fontClass = 'vertical-right'
+            this.fontClass = 'vertical-left'
             break;
         }
       }
@@ -118,7 +118,7 @@ export default {
     &.scale{
       transform-origin: 50% 3%;
       transform: scale(0.8);
-      box-shadow: 4px 4px 4px #cccbbb; /*px*/
+      box-shadow: 2px 2px 4px 4px #ddd; /*px*/
     }
     .upload{
       transition: all 0.5s;      
@@ -228,48 +228,27 @@ export default {
       font-size: 20px;  /*px*/
       line-height: 30px;    /*px*/ 
       &.across-left{
+        top: 340px;
         width: 70%;
         text-align: left;
-        font-size: 22px;
         i{
-          position: absolute;
-          left: -20px; /*px*/
-          top: 9px; /*px*/
-          content: '';
-          width: 10px;
-          height: 10px;
-          border-radius: 50%;
-          border: 2px solid red; /*px*/
+          display: none;
         }
       }
       &.across-center{
         width: 70%;
+        top: 340px;        
         text-align: center;
-        font-size: 22px;
         i{
-          position: absolute;
-          left: -15px; /*px*/
-          top: 9px; /*px*/
-          content: '';
-          width: 10px;
-          height: 10px;
-          border-radius: 50%;
-          border: 2px solid red; /*px*/
+          display: none;
         }
       }
       &.across-right{
         width: 70%;
+        top: 340px;        
         text-align: right;
-        font-size: 22px;
         i{
-          position: absolute;
-          left: -15px; /*px*/
-          top: 9px; /*px*/
-          content: '';
-          width: 10px;
-          height: 10px;
-          border-radius: 50%;
-          border: 2px solid red; /*px*/
+          display: none;
         }
       }
       &.vertical-right{

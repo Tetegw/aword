@@ -2,28 +2,39 @@
   <div class="setting-com-wrapper">
     <div class="menu">
       <span v-for="(item, index) in mode" :key="index" @click="checkMode(index)">{{item}}</span>
+      <span class="confirm" @click="confirm">保存</span>
     </div>
     <div class="menu-detail" :class="{'active': checkedMode}">
       <div class="confirm" @click="checkedMode = false"></div>
       <ul>
-        <li v-for="(item, index) in modeList" :key="index" @click="changeMode(item.value, item.type)">{{item.value}}</li>
+        <li v-for="(item, index) in modeList" :key="index" @click="changeMode(index, item.type)">{{item.value}}</li>
       </ul>
     </div>
+    <v-Confirm
+      :showModel="showModel"
+      content="确定保存此卡片吗"
+      confirm="确定"
+      @emitHideModel="emitHideModel"
+      @emitConfirm="emitConfirm"
+    ></v-Confirm>
   </div>
 </template>
 
 <script>
-const mode = ['图片模式', '文字模式', '字体选择']
+import Confirm from '@/components/confirm.vue'
+
+const mode = ['图片模式', '文字模式']
 const modeList = {
-  modeList_0: [{type: 'pic', value: 1}, {type: 'pic', value: 2}, {type: 'pic', value: 3}],
-  modeList_1: [{type: 'font', value: 1}, {type: 'font', value: 2}, {type: 'font', value: 3}, {type: 'font', value: 4}, {type: 'font', value: 5}]
+  modeList_0: [{type: 'pic', value: '矩形'}, {type: 'pic', value: '圆形'}, {type: 'pic', value: '斜切'}],
+  modeList_1: [{type: 'font', value: '竖左'}, {type: 'font', value: '竖右'}, {type: 'font', value: '居左'}, {type: 'font', value: '居中'}, {type: 'font', value: '居右'}]
 }
 export default {
   data() {
     return {
       mode,
       checkedMode: false,
-      modeList: []
+      modeList: [],
+      showModel: false
     }
   },
   methods: {
@@ -33,7 +44,13 @@ export default {
     },
     changeMode (index, type) {
       this.$emit('changeMode', index, type)
+    },
+    confirm () {
+      this.showModel = true
     }
+  },
+  components: {
+    'v-Confirm': Confirm
   }
 }
 </script>
@@ -51,6 +68,7 @@ export default {
     width: 100%;
     text-align: center;
     font-size: 14px;
+    position: relative;
     span{
       color: #666;
       display: inline-block;
@@ -59,6 +77,11 @@ export default {
       &:last-child{
         margin-right: 0;
       }
+    }
+    .confirm{
+      position: absolute;
+      right: 20px;
+      line-height: 50px;
     }
   }
   .menu-detail{
@@ -88,6 +111,8 @@ export default {
         flex: 1 0 25%;
         line-height: 50px;
         text-align: center;
+        color:#666;
+        font-size: 14px;
       }
     }
     .confirm{
