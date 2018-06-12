@@ -6,7 +6,7 @@
     <div class="menu-detail" :class="{'active': checkedMode}">
       <div class="confirm" @click="checkedMode = false"></div>
       <ul>
-        <li v-for="(item, index) in modeList" :key="index" @click="changeMode(index, item.type)">{{item.value}}</li>
+        <li v-for="(item, index) in modeList" :key="index" @click="changeMode(item.value, item.type)">{{item.value}}</li>
       </ul>
     </div>
   </div>
@@ -16,7 +16,7 @@
 const mode = ['图片模式', '文字模式', '字体选择']
 const modeList = {
   modeList_0: [{type: 'pic', value: 1}, {type: 'pic', value: 2}, {type: 'pic', value: 3}],
-  modeList_1: [{type: 'font', value: 1}, {type: 'font', value: 2}, {type: 'font', value: 3}]
+  modeList_1: [{type: 'font', value: 1}, {type: 'font', value: 2}, {type: 'font', value: 3}, {type: 'font', value: 4}, {type: 'font', value: 5}]
 }
 export default {
   data() {

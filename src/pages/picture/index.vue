@@ -1,14 +1,15 @@
 <template>
   <div class="upload-wrapper">
-    <div class="picture scale" :class="{'default': picClassIndex === 0, 'skew': picClassIndex === 1, 'circle': picClassIndex === 2 }">
+    <div class="picture scale" :class="picClass">
       <div class="upload">
         <img mode="aspectFill" class="img" @click="addPicture" :src="filePath" />
         <div class="add" @click="addPicture" v-show="!filePath">+</div>
       </div>
-      <div class="content across-left">
+      <div class="content" :class="fontClass">
         <i></i>
         {{PictureInfo.content}}
       </div>
+      <div class="author"><i>-&nbsp;</i><span>{{PictureInfo.author}}</span><i>&nbsp;-</i></div>
     </div>
     <v-Setting
       @changeMode="changeMode"
@@ -20,13 +21,12 @@
 import Setting from "@/components/setting.vue"
 import store from '@/store.js'
 
-const PICCLASSLIST =  ['default', 'skew', 'circle']
 export default {
   data () {
     return {
       filePath: '',
-      picClassIndex: 0,
-      fontClassIndex: 0,
+      picClass: 'default',
+      fontClass: 'vertical-left',
     }
   },
   computed: {
@@ -49,9 +49,43 @@ export default {
     },
     changeMode (index, type) {
       if (type === 'pic') {
-        this.picClassIndex = index
+        switch (index) {
+          case 1:
+            this.picClass = 'default'
+            break;
+          case 2:
+            this.picClass = 'circle'
+            break;
+          case 3:
+            this.picClass = 'skew'
+            break;
+        
+          default:
+            this.picClass = 'default'
+            break;
+        }
       } else if (type === 'font') {
-        this.fontClassIndex = index
+        switch (index) {
+          case 1:
+            this.fontClass = 'across-left'
+            break;
+          case 2:
+            this.fontClass = 'across-center'
+            break;
+          case 3:
+            this.fontClass = 'across-right'
+            break;
+          case 4:
+            this.fontClass = 'vertical-left'
+            break;
+          case 5:
+            this.fontClass = 'vertical-right'
+            break;
+        
+          default:
+            this.fontClass = 'vertical-right'
+            break;
+        }
       }
     }
   },
@@ -71,7 +105,6 @@ export default {
   overflow: hidden;
   .picture{
     position: relative;
-    transition: all 0.5s;
     &::before {
       content: '';
       padding-top: 177.7777778%;
@@ -86,6 +119,9 @@ export default {
       transform-origin: 50% 3%;
       transform: scale(0.8);
       box-shadow: 4px 4px 4px #cccbbb; /*px*/
+    }
+    .upload{
+      transition: all 0.5s;      
     }
     &.default{
       .upload{
@@ -115,6 +151,7 @@ export default {
     }
     &.skew{
       .upload{
+        width: 100%;
         height: 280px;
         overflow: hidden;
         position: relative;
@@ -151,14 +188,14 @@ export default {
       }
     }
     &.circle{
+      border: 1px solid transparent; /*px*/
+      box-sizing: border-box;
       .upload{
         width: 170px;
         height: 170px;
-        position: absolute;
+        position: relative;
         background: #f1f1f1;
-        left: 50%;
-        top: 50px;
-        transform: translate(-50%);
+        margin: 50px auto;
         border-radius: 50%;
         overflow: hidden;
         .img{
@@ -180,30 +217,112 @@ export default {
       }
       .content{
         position: absolute;
-        top: 250px;
+        top: 270px;
       }
     }
     .content{
+      position: absolute;
+      top: 310px;
+      left: 50%;
+      transform: translate(-50%);
+      font-size: 20px;  /*px*/
+      line-height: 30px;    /*px*/ 
       &.across-left{
-        padding-left: 20px;
-        position: absolute;
-        top: 300px;
-        left: 50%;
-        transform: translate(-50%);
         width: 70%;
         text-align: left;
         font-size: 22px;
-        line-height: 30px;
+        i{
+          position: absolute;
+          left: -20px; /*px*/
+          top: 9px; /*px*/
+          content: '';
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          border: 2px solid red; /*px*/
+        }
       }
+      &.across-center{
+        width: 70%;
+        text-align: center;
+        font-size: 22px;
+        i{
+          position: absolute;
+          left: -15px; /*px*/
+          top: 9px; /*px*/
+          content: '';
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          border: 2px solid red; /*px*/
+        }
+      }
+      &.across-right{
+        width: 70%;
+        text-align: right;
+        font-size: 22px;
+        i{
+          position: absolute;
+          left: -15px; /*px*/
+          top: 9px; /*px*/
+          content: '';
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          border: 2px solid red; /*px*/
+        }
+      }
+      &.vertical-right{
+        height: 270px;
+        writing-mode: vertical-rl;
+        letter-spacing:2px;  /*px*/ 
+        i{
+          position: absolute;
+          right: 8px; /*px*/
+          top: -20px; /*px*/
+          content: '';
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          border: 2px solid red; /*px*/
+        }
+      }
+      &.vertical-left{
+        height: 270px;
+        writing-mode: vertical-lr;
+        letter-spacing:2px;  /*px*/ 
+        i{
+          position: absolute;
+          left: 8px; /*px*/
+          top: -20px; /*px*/
+          content: '';
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          border: 2px solid red; /*px*/
+        }
+      }
+    }
+    .author{
+      color: #999;
+      font-family:'PingFang SC','Droid Sans',HelveticaNeue,"Helvetica Neue",arial,sans-serif;
+      -webkit-font-smoothing: antialiased;
+      text-align: center;
+      position: absolute;
+      top: 610px;
+      width: 100%;
+      vertical-align: middle;
       i{
-        position: absolute;
-        left: 0;
-        top: 9px;
-        content: '';
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        border: 2px solid red;
+        display: inline-block;
+        vertical-align: middle;
+      }
+      span{
+        display: inline-block;
+        vertical-align: middle;        
+        max-width: 230px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
     }
   }

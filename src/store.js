@@ -11,7 +11,7 @@ const store = new Vuex.Store({
     userInfo: {},
     hasUserInfo: false,
     makePictureInfo: {
-      content: '由于小程序升级，导致关于getUserInfo接口有所调整，哈哈。',
+      content: 'asdf<br>222',
       author: '',
       labelItem: '默认',
       privacy: false
@@ -25,8 +25,8 @@ const store = new Vuex.Store({
       state.hasUserInfo = payload
     },
     storeMakePictureInfo(state, payload) {
-      state.makePictureInfo = Object({}, state.makePictureInfo, payload)
-      console.log(payload)
+      state.makePictureInfo = Object.assign({}, state.makePictureInfo, payload)
+      console.log(state.makePictureInfo)
     }
   }
 })
