@@ -1,6 +1,6 @@
 <template>
   <div class="upload-wrapper">
-    <div class="picture scale" :class="picClass">
+    <div class="picture scale" :class="picClass" id="picture">
       <div class="upload">
         <img mode="aspectFill" class="img" @click="addPicture" :src="filePath" />
         <div class="add" @click="addPicture" v-show="!filePath">+</div>
@@ -13,11 +13,13 @@
     </div>
     <v-Setting
       @changeMode="changeMode"
+      @emitConfirm="emitConfirm"
     ></v-Setting>
   </div>
 </template>
 
 <script>
+import Html2canvas from "html2canvas"
 import Setting from "@/components/setting.vue"
 import store from '@/store.js'
 
@@ -28,6 +30,9 @@ export default {
       picClass: 'default',
       fontClass: 'vertical-left',
     }
+  },
+  created () {
+    console.log(Html2canvas)
   },
   computed: {
     PictureInfo () {
@@ -87,6 +92,16 @@ export default {
             break;
         }
       }
+    },
+    emitConfirm () {
+      console.log('点击了确定')
+      let picture = wx.createSelectorQuery().select('#picture')
+      Html2canvas(picture).then((res) => {
+        console.log(res)
+      }).catch((err) => {
+        console.log(err)
+      })
+      
     }
   },
   components: {

@@ -47,6 +47,13 @@ export default {
     },
     confirm () {
       this.showModel = true
+    },
+    emitHideModel () {
+      this.showModel = false
+    },
+    emitConfirm () {
+      this.$emit('emitConfirm')
+      this.showModel = false
     }
   },
   components: {
