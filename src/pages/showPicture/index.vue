@@ -3,6 +3,7 @@
     <div class="v-Picture-wrapper" @click="toggleMenu">
       <v-Picture
         :PictureInfo="PictureInfo"
+        :authorBottom="true"
       ></v-Picture>
     </div>
     <div class="more" :class="{'active': showMenu}" @click="showActionSheet">···</div>
@@ -32,7 +33,6 @@ export default {
       wx.showActionSheet({
         itemList: ['作者', '收藏', '转发', '复制文字'],
         success (res) {
-          console.log(res)
           switch (res.tapIndex) {
             case 0:
               _this.collect()

@@ -18,6 +18,7 @@ export default {
   methods:{
      // 登录
     login () {
+      console.log('login...')
       let _this = this
       wx.login({
         success (res) {

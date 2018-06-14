@@ -4,7 +4,9 @@
       <block v-for="(item, index) in pictureList" :key="index">
         <swiper-item @click="selectPicture(item)">
           <div class="swiper-item">
-            <v-Picture></v-Picture>
+            <v-Picture
+              :PictureInfo="item"
+            ></v-Picture>
           </div>
         </swiper-item>
       </block>
@@ -14,26 +16,25 @@
 
 <script>
 import Picture from '@/components/picture.vue'
+import { findCards } from '@/bmob.js'
+
 export default {
   data () {
     return {
-      pictureList: [
-        {
-          content: '1间隔彼此江北城，间隔彼此江北城，间隔彼此江',
-          author: '孙晨',
-          labelItem: '默认',
-          privacy: false
-        },
-        {
-          content: '2间隔彼此江北城，间隔彼此江北城，间隔彼此江',
-          author: '2孙晨',
-          labelItem: '默认',
-          privacy: false
-        },
-      ]
+      pictureList: []
     }
   },
   onShareAppMessage(){
+  },
+  created () {
+    findCards().then((res) => {
+      this.pictureList = res
+    }).catch((err) => {
+      wx.showToast({
+        title: '查询失败',
+        icon: 'none'
+      })
+    })
   },
   methods: {
     selectPicture (item) {

@@ -23,6 +23,7 @@
 <script>
 import Setting from "@/components/setting.vue"
 import store from '@/store.js'
+import { uploadFile, create } from "@/bmob.js"
 
 export default {
   data () {
@@ -43,6 +44,9 @@ export default {
   computed: {
     PictureInfo () {
       return store.state.makePictureInfo
+    },
+    userInfo () {
+      return store.state.userInfo
     }
   },
   methods: {
@@ -55,7 +59,44 @@ export default {
         success: function (res) {
           // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
           _this.filePath = res.tempFilePaths
+          
         }
+      })
+    },
+    uploadImg () {
+      let file = this.filePath[0]
+      let nickName = this.userInfo.nickName
+      uploadFile(file, nickName).then((res) => {
+        console.log(res)
+        this.createPicture(JSON.parse(res[0]).url)
+      }).catch((err) => {
+        console.log('uploadImg_err', err)
+        wx.showToast({
+          title: '创建失败',
+          icon: 'none'
+        })
+      })
+    },
+    createPicture (imgUrl) {
+      // 图片，图片模式，文字模式，文字，出处，当前用户
+      let params = {
+        imgUrl: imgUrl,
+        content: this.PictureInfo.content,
+        author: this.PictureInfo.author,
+        picClass: this.picClass,
+        fontClass: this.fontClass
+      }
+      create(params).then((res) => {
+        wx.showToast({
+          title: '创建成功',
+          icon: 'none'
+        })
+      }).catch((err) => {
+        console.log('createPicture_err', err)
+        wx.showToast({
+          title: '创建失败',
+          icon: 'none'
+        })
       })
     },
     changeMode (index, type) {
@@ -101,9 +142,8 @@ export default {
     },
     emitConfirm () {
       // 先上传图片，然后保存数据库
-      console.log('itemn',item)
-      file = Bmob.File('abc.jpg', item);
-      console.log('点击了确定')
+      this.uploadImg()
+      wx.showLoading()
     }
   },
   components: {
@@ -141,12 +181,12 @@ export default {
     &.default{
       .upload{
         width: 100%;
-        height: 230px;
+        height: 210px;
         background: #f1f1f1;
         position: relative;
         .img{
           width: 100%;
-          height: 230px;
+          height: 210px;
         }
         .add{
           font-size: 20px;
@@ -167,7 +207,7 @@ export default {
     &.skew{
       .upload{
         width: 100%;
-        height: 240px;
+        height: 210px;
         overflow: hidden;
         position: relative;
         background: #f1f1f1;
@@ -184,7 +224,7 @@ export default {
         }
         .img{
           width: 100%;
-          height: 240px;
+          height: 210px;
         }
         .add{
           font-size: 20px;
@@ -237,13 +277,13 @@ export default {
     }
     .content{
       position: absolute;
-      top: 276px;
+      top: 265px;
       left: 50%;
       transform: translate(-50%);
       font-size: 16px;  /*px*/
-      line-height: 30px;    /*px*/ 
+      line-height: 24px;    /*px*/ 
       &.across-left{
-        top: 300px;
+        top: 260px;
         width: 70%;
         text-align: left;
         i{
@@ -252,7 +292,7 @@ export default {
       }
       &.across-center{
         width: 70%;
-        top: 300px;        
+        top: 260px;        
         text-align: center;
         i{
           display: none;
@@ -260,20 +300,20 @@ export default {
       }
       &.across-right{
         width: 70%;
-        top: 300px;        
+        top: 260px;        
         text-align: right;
         i{
           display: none;
         }
       }
       &.vertical-right{
-        height: 210px;
+        height: 195px;
         writing-mode: vertical-rl;
-        letter-spacing:2px;  /*px*/ 
+        letter-spacing:1px;  /*px*/ 
         i{
           position: absolute;
-          right: 8px; /*px*/
-          top: -20px; /*px*/
+          right: 5px; /*px*/
+          top: -23px; /*px*/
           content: '';
           width: 10px;
           height: 10px;
@@ -282,13 +322,13 @@ export default {
         }
       }
       &.vertical-left{
-        height: 210px;
+        height: 195px;
         writing-mode: vertical-lr;
-        letter-spacing:2px;  /*px*/ 
+        letter-spacing:1px;  /*px*/ 
         i{
           position: absolute;
-          left: 8px; /*px*/
-          top: -20px; /*px*/
+          left: 5px; /*px*/
+          top: -23px; /*px*/
           content: '';
           width: 10px;
           height: 10px;
@@ -304,7 +344,7 @@ export default {
       -webkit-font-smoothing: antialiased;
       text-align: center;
       position: absolute;
-      bottom: 20px;
+      bottom: 5%;
       width: 100%;
       vertical-align: middle;
       i{

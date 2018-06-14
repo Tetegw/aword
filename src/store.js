@@ -11,7 +11,7 @@ const store = new Vuex.Store({
     userInfo: {},
     hasUserInfo: false,
     makePictureInfo: {
-      content: '间隔彼此江北城，间隔彼此江北城，间隔彼此江北城',
+      content: '我曾在一场大雪中走失，又从一场大雪中醒来，我是那风雪中经年未化的冰冷，注定了一半衰老，一半天真。 ​​​',
       author: '孙晨',
       labelItem: '默认',
       privacy: false

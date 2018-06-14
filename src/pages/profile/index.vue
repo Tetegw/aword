@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { auth, upInfo, updateStorage, currentUser } from '@/bmob.js'
+import { auth, upInfo, currentUser } from '@/bmob.js'
 import store from '@/store.js'
 
 import Labels from '@/components/labels.vue'

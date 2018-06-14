@@ -1,13 +1,13 @@
 <template>
-  <div class="picture" :class="picClass" id="picture">
+  <div class="picture" :class="PictureInfo_.picClass" id="picture">
     <div class="upload">
-      <img mode="aspectFill" class="img"  :src="filePath" />
+      <img mode="aspectFill" class="img"  :src="PictureInfo_.imgUrl" />
     </div>
-    <div class="content" :class="fontClass" v-show="PictureInfo_.content">
+    <div class="content" :class="PictureInfo_.fontClass" v-show="PictureInfo_.content">
       <i></i>
       {{PictureInfo_.content}}
     </div>
-    <div class="author" v-show="PictureInfo_.author"><i>-&nbsp;</i><span>{{PictureInfo_.author}}</span><i>&nbsp;-</i></div>
+    <div class="author" :class="{'btm11': authorBottom}" v-show="PictureInfo_.author"><i>-&nbsp;</i><span>{{PictureInfo_.author}}</span><i>&nbsp;-</i></div>
   </div>
 </template>
 
@@ -15,9 +15,6 @@
 export default {
   data() {
     return {
-      picClass: 'circle',
-      filePath: '',
-      fontClass: 'vertical-right',
       PictureInfo_: this.PictureInfo
     }
   },
@@ -27,6 +24,10 @@ export default {
       default () {
         return {}
       }
+    },
+    authorBottom: {
+      type: Boolean,
+      default: false
     }
   },
   watch:{
@@ -52,12 +53,12 @@ export default {
   &.default{
     .upload{
       width: 100%;
-      height: 230px;
+      height: 210px;
       background: #f1f1f1;
       position: relative;
       .img{
         width: 100%;
-        height: 230px;
+        height: 210px;
       }
       .add{
         font-size: 20px;
@@ -78,7 +79,7 @@ export default {
   &.skew{
     .upload{
       width: 100%;
-      height: 240px;
+      height: 210px;
       overflow: hidden;
       position: relative;
       background: #f1f1f1;
@@ -95,7 +96,7 @@ export default {
       }
       .img{
         width: 100%;
-        height: 240px;
+        height: 210px;
       }
       .add{
         font-size: 20px;
@@ -148,13 +149,13 @@ export default {
   }
   .content{
     position: absolute;
-    top: 276px;
+    top: 265px;
     left: 50%;
     transform: translate(-50%);
     font-size: 16px;  /*px*/
-    line-height: 30px;    /*px*/ 
+    line-height: 24px;    /*px*/ 
     &.across-left{
-      top: 300px;
+      top: 260px;
       width: 70%;
       text-align: left;
       i{
@@ -163,7 +164,7 @@ export default {
     }
     &.across-center{
       width: 70%;
-      top: 300px;        
+      top: 260px;        
       text-align: center;
       i{
         display: none;
@@ -171,20 +172,20 @@ export default {
     }
     &.across-right{
       width: 70%;
-      top: 300px;        
+      top: 260px;        
       text-align: right;
       i{
         display: none;
       }
     }
     &.vertical-right{
-      height: 210px;
+      height: 195px;
       writing-mode: vertical-rl;
-      letter-spacing:2px;  /*px*/ 
+      letter-spacing:1px;  /*px*/ 
       i{
         position: absolute;
-        right: 8px; /*px*/
-        top: -20px; /*px*/
+        right: 5px; /*px*/
+        top: -23px; /*px*/
         content: '';
         width: 10px;
         height: 10px;
@@ -193,13 +194,13 @@ export default {
       }
     }
     &.vertical-left{
-      height: 210px;
+      height: 195px;
       writing-mode: vertical-lr;
-      letter-spacing:2px;  /*px*/ 
+      letter-spacing:1px;  /*px*/ 
       i{
         position: absolute;
-        left: 8px; /*px*/
-        top: -20px; /*px*/
+        left: 5px; /*px*/
+        top: -23px; /*px*/
         content: '';
         width: 10px;
         height: 10px;
@@ -215,9 +216,12 @@ export default {
     -webkit-font-smoothing: antialiased;
     text-align: center;
     position: absolute;
-    bottom: 10%;
+    bottom: 5%;
     width: 100%;
     vertical-align: middle;
+    &.btm11{
+      bottom: 11%;
+    }
     i{
       display: inline-block;
       vertical-align: middle;

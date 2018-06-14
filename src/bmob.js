@@ -25,18 +25,6 @@ export function upInfo (userInfo) {
   })
 }
 
-export function updateStorage (objectId) {
-  return new Promise((resolve, reject) => {
-    Bmob.User.updateStorage(objectId).then((res) => {
-      console.log('bmob_updateStorage====>', res)
-      resolve(res)
-    }).catch((err) => {
-      reject(err)
-    })
-  })
-}
-
-
 
 export function currentUser () {
   return new Promise((resolve, reject) => {
@@ -50,11 +38,48 @@ export function currentUser () {
   })
 }
 
-export function uploadFile(item) {
+export function uploadFile (item, nickName) {
   return new Promise((resolve, reject) => {
-    let name = `${new Date().getTime()}_${String(Math.random()).slice(2, 10)}.jpg`
+    let name = `${nickName}_${new Date().getTime()}_${String(Math.random()).slice(2, 10)}.jpg`
     let file = Bmob.File(name, item);
     file.save().then((res) => {
+      console.log('bmob_uploadFile===>', res)
+      resolve(res)
+    }).catch((err) => {
+      reject(err)
+    })
+  })
+}
+
+export function create (params) {
+  return new Promise((resolve, reject) => {
+    currentUser().then((res) => {
+      console.log('当前用户', res)
+      const card = Bmob.Query('card')
+      card.set('userId', res.objectId)
+      card.set('imgUrl', params.imgUrl)
+      card.set('content', params.content)
+      card.set('author', params.author)
+      card.set('picClass', params.picClass)
+      card.set('fontClass', params.fontClass)
+      card.save().then((res) => {
+        console.log('bmob_create===>', res)
+        resolve(res)
+      }).catch(err => {
+        reject(err)
+      })
+    })
+  })
+}
+
+
+export function findCards (currentPage = 1, size = 10) {
+  return new Promise((resolve, reject) => {
+    const query = Bmob.Query('card')
+    query.limit(size)
+    query.skip(size * (currentPage - 1))
+    query.find().then((res) => {
+      console.log('bmob_findCards===>', res)      
       resolve(res)
     }).catch((err) => {
       reject(err)
