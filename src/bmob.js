@@ -61,5 +61,3 @@ export function uploadFile(item) {
     })
   })
 }
-
-?>>>
