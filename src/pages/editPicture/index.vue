@@ -1,15 +1,17 @@
 <template>
-  <div class="upload-wrapper">
-    <div class="picture scale" :class="picClass" id="picture">
-      <div class="upload">
-        <img mode="aspectFill" class="img" @click="addPicture" :src="filePath" />
-        <div class="add" @click="addPicture" v-show="!filePath">+</div>
+  <div class="edit-picture-wrapper">
+    <div class="scale">
+      <div class="picture" :class="picClass" id="picture">
+        <div class="upload">
+          <img mode="aspectFill" class="img" @click="addPicture" :src="filePath" />
+          <div class="add" @click="addPicture" v-show="!filePath">+</div>
+        </div>
+        <div class="content" :class="fontClass">
+          <i v-show="PictureInfo.content"></i>
+          {{PictureInfo.content}}
+        </div>
+        <div class="author"><i>-&nbsp;</i><span>{{PictureInfo.author}}</span><i>&nbsp;-</i></div>
       </div>
-      <div class="content" :class="fontClass">
-        <i></i>
-        {{PictureInfo.content}}
-      </div>
-      <div class="author"><i>-&nbsp;</i><span>{{PictureInfo.author}}</span><i>&nbsp;-</i></div>
     </div>
     <v-Setting
       @changeMode="changeMode"
@@ -19,7 +21,6 @@
 </template>
 
 <script>
-import Html2canvas from "html2canvas"
 import Setting from "@/components/setting.vue"
 import store from '@/store.js'
 
@@ -32,7 +33,12 @@ export default {
     }
   },
   created () {
-    console.log(Html2canvas)
+  },
+  onShareAppMessage: function (res) {
+    return {
+      title: '一言以蔽之',
+      path: 'pages/picture/main'
+    }
   },
   computed: {
     PictureInfo () {
@@ -95,13 +101,6 @@ export default {
     },
     emitConfirm () {
       console.log('点击了确定')
-      let picture = wx.createSelectorQuery().select('#picture')
-      Html2canvas(picture).then((res) => {
-        console.log(res)
-      }).catch((err) => {
-        console.log(err)
-      })
-      
     }
   },
   components: {
@@ -111,42 +110,40 @@ export default {
 </script>
 
 <style scoped lang="less">
-.upload-wrapper{
+.edit-picture-wrapper{
   position: absolute;
   top: 0;
   left: 0;
-  bottom: 0;
+  bottom: 51px;
   right: 0;
   overflow: hidden;
+  .scale{
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    box-shadow: 2px 2px 4px 4px #ddd; /*px*/
+  }
   .picture{
-    position: relative;
-    &::before {
-      content: '';
-      padding-top: 177.7777778%;
-      float: left;
-    }
-    &::after {
-      content: '';
-      display: block;
-      clear: both;
-    }
-    &.scale{
-      transform-origin: 50% 3%;
-      transform: scale(0.8);
-      box-shadow: 2px 2px 4px 4px #ddd; /*px*/
-    }
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #fff;
     .upload{
       transition: all 0.5s;      
     }
     &.default{
       .upload{
         width: 100%;
-        height: 260px;
+        height: 230px;
         background: #f1f1f1;
         position: relative;
         .img{
           width: 100%;
-          height: 260px;
+          height: 230px;
         }
         .add{
           font-size: 20px;
@@ -167,7 +164,7 @@ export default {
     &.skew{
       .upload{
         width: 100%;
-        height: 280px;
+        height: 240px;
         overflow: hidden;
         position: relative;
         background: #f1f1f1;
@@ -184,7 +181,7 @@ export default {
         }
         .img{
           width: 100%;
-          height: 280px;
+          height: 240px;
         }
         .add{
           font-size: 20px;
@@ -206,16 +203,16 @@ export default {
       border: 1px solid transparent; /*px*/
       box-sizing: border-box;
       .upload{
-        width: 170px;
-        height: 170px;
+        width: 160px;
+        height: 160px;
         position: relative;
         background: #f1f1f1;
-        margin: 50px auto;
+        margin: 30px auto;
         border-radius: 50%;
         overflow: hidden;
         .img{
           width: 100%;
-          height: 170px;
+          height: 160px;
         }
         .add{
           font-size: 20px;
@@ -232,18 +229,18 @@ export default {
       }
       .content{
         position: absolute;
-        top: 270px;
+        top: 250px;
       }
     }
     .content{
       position: absolute;
-      top: 310px;
+      top: 276px;
       left: 50%;
       transform: translate(-50%);
-      font-size: 20px;  /*px*/
+      font-size: 16px;  /*px*/
       line-height: 30px;    /*px*/ 
       &.across-left{
-        top: 340px;
+        top: 300px;
         width: 70%;
         text-align: left;
         i{
@@ -252,7 +249,7 @@ export default {
       }
       &.across-center{
         width: 70%;
-        top: 340px;        
+        top: 300px;        
         text-align: center;
         i{
           display: none;
@@ -260,14 +257,14 @@ export default {
       }
       &.across-right{
         width: 70%;
-        top: 340px;        
+        top: 300px;        
         text-align: right;
         i{
           display: none;
         }
       }
       &.vertical-right{
-        height: 270px;
+        height: 210px;
         writing-mode: vertical-rl;
         letter-spacing:2px;  /*px*/ 
         i{
@@ -282,7 +279,7 @@ export default {
         }
       }
       &.vertical-left{
-        height: 270px;
+        height: 210px;
         writing-mode: vertical-lr;
         letter-spacing:2px;  /*px*/ 
         i{
@@ -298,12 +295,13 @@ export default {
       }
     }
     .author{
+      font-size: 14px;
       color: #999;
       font-family:'PingFang SC','Droid Sans',HelveticaNeue,"Helvetica Neue",arial,sans-serif;
       -webkit-font-smoothing: antialiased;
       text-align: center;
       position: absolute;
-      top: 610px;
+      bottom: 20px;
       width: 100%;
       vertical-align: middle;
       i{
@@ -320,6 +318,5 @@ export default {
       }
     }
   }
-  
 }
 </style>

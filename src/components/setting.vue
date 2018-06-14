@@ -69,7 +69,7 @@ export default {
   left: 0;
   width: 100%;
   height: 50px;
-  border-top: 1px solid #eee;
+  border-top: 1px solid #eee; /*px*/
   background: #fff;
   .menu{
     width: 100%;

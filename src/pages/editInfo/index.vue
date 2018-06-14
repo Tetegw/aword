@@ -1,5 +1,5 @@
 <template>
-  <div class="make-wrapper">
+  <div class="edit-info-wrapper">
       <div class="content">
         <p class="title">正文</p>
         <textarea class="text-input" name="" id="" cols="30" rows="10" :disabled="InputDisabled" v-model="contentInput"></textarea>
@@ -72,7 +72,7 @@ export default {
         privacy: this.privacy || false
       })
       wx.navigateTo({
-        url: '../picture/main'
+        url: '../editPicture/main'
       })
     }
   },
@@ -83,7 +83,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-.make-wrapper{
+.edit-info-wrapper{
   padding: 20px;
   font-size: 14px;
   color: #333;

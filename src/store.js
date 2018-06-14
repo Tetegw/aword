@@ -11,8 +11,8 @@ const store = new Vuex.Store({
     userInfo: {},
     hasUserInfo: false,
     makePictureInfo: {
-      content: 'asdf<br>222',
-      author: '',
+      content: '间隔彼此江北城，间隔彼此江北城，间隔彼此江北城',
+      author: '孙晨',
       labelItem: '默认',
       privacy: false
     }

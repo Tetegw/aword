@@ -14,7 +14,7 @@ export default {
   methods: {
     makePicture() {
       wx.navigateTo({
-        url: '../make/main'
+        url: '../editInfo/main'
       })
     }
   } 

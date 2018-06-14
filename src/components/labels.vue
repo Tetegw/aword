@@ -23,7 +23,7 @@ import Confirm from '@/components/confirm.vue'
 export default {
   data() {
     return {
-      list: ['默认', '诗', '加好', '我的一个'],
+      list: ['默认', '收藏', '加好', '我的一个'],
       currentLabelIndex: 0,
       showModel: false,
       fixed: false
