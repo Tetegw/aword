@@ -100,6 +100,9 @@ export default {
       }
     },
     emitConfirm () {
+      // 先上传图片，然后保存数据库
+      console.log('itemn',item)
+      file = Bmob.File('abc.jpg', item);
       console.log('点击了确定')
     }
   },

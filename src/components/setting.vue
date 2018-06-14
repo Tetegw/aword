@@ -6,7 +6,7 @@
     </div>
     <div class="menu-detail" :class="{'active': checkedMode}">
       <div class="confirm" @click="checkedMode = false"></div>
-      <ul>
+      <ul> 
         <li v-for="(item, index) in modeList" :key="index" @click="changeMode(index, item.type)">{{item.value}}</li>
       </ul>
     </div>
@@ -107,9 +107,9 @@ export default {
       margin-right: 40px;
       display: flex;
       flex-wrap: nowrap;
-      overflow-x: scroll;
       height: 50px;
       background: #fff;
+      overflow-y: scroll;
       &::-webkit-scrollbar {
         display: none;
       }

@@ -33,8 +33,19 @@ export default {
         itemList: ['作者', '收藏', '转发', '复制文字'],
         success (res) {
           console.log(res)
-          if (res.tapIndex === 1) {
-            _this.collect()
+          switch (res.tapIndex) {
+            case 0:
+              _this.collect()
+              break;
+            case 1:
+              _this.collect()
+              break;
+            case 2:
+              _this.collect()
+              break;
+            case 3:
+              _this.copyText()
+              break;
           }
         },
         fail (err) {
@@ -46,6 +57,17 @@ export default {
       wx.showToast({
         title: '收藏成功',
         icon: 'none'
+      })
+    },
+    copyText () {
+      wx.setClipboardData({
+        data: this.PictureInfo.content,
+        success: function(res) {
+          wx.showToast({
+            title: '复制成功',
+            icon: 'none'
+          })
+        }
       })
     }
   },

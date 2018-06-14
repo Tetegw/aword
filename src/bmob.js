@@ -49,3 +49,15 @@ export function currentUser () {
     }
   })
 }
+
+export function uploadFile(item) {
+  return new Promise((resolve, reject) => {
+    let name = `${new Date().getTime()}_${String(Math.random()).slice(2, 10)}.jpg`
+    let file = Bmob.File(name, item);
+    file.save().then((res) => {
+      resolve(res)
+    }).catch((err) => {
+      reject(err)
+    })
+  })
+}
