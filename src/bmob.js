@@ -130,7 +130,7 @@ export function getUserLabels(userId) {
     label.equalTo('userId', '==', userId)
     label.find().then((res) => {
       console.log('bmob_getUserLabels===>', res)
-      resolve(res)
+      resolve(res.reverse())
     }).catch((err) => {
       reject(err)
     })
@@ -153,9 +153,12 @@ export function getUserLabelCard(userId, labelInfo = '默认', currentPage = 1, 
       card.equalTo('labelId', '==', labelId)
       card.limit(size)
       card.skip(size * (currentPage - 1))
-      card.find().then((res) => {
-        console.log('bmob_getUserLabelCard===>', res)
-        resolve(res)
+      card.find().then((result) => {
+        console.log('bmob_getUserLabelCard===>', result)
+        resolve({
+          label: res,
+          card: result
+        })
       }).catch((err) => {
         reject(err)
       })

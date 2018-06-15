@@ -9,21 +9,16 @@ export default {
   created() {
     this.login()
   },
-  computed: {
-    showToast () {
-      console.log(store.state.showToast)
-      return store.state.showToast
-    }
-  },
   methods:{
-     // 登录
     login () {
       console.log('login...')
+      wx.showLoading()
       let _this = this
       wx.login({
         success (res) {
           console.log('微信登录成功', res)
           auth().then((res) => {
+            wx.hideLoading()
             console.log('第三方登录成功', res)
           }).catch((err) => {
             console.log('第三方登录失败', res)

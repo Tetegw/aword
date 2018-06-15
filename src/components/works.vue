@@ -1,7 +1,7 @@
 <template>
   <div class="works-com-wrapper">
       <ul class="works-list">
-        <li @click="makePicture">+</li>
+        <li @click="makePicture" class="add">+</li>
         <li v-for="(item, index) in currentCardList" :key="index">
           <v-MinPicture
             :PictureInfo="item"
@@ -45,14 +45,14 @@ export default {
     li{
       width: 40%;
       margin: 0 5%;
-      background: #eee;
+      background: #fff;
       box-shadow: 1px 1px 2px 2px #eee;
       margin-bottom: 20px;
       text-align: center;
       position: relative;
       &::before {
         content: '';
-        padding-top: 177%;
+        padding-top: 150%;
         float: left;
       }
       &::after {

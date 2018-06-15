@@ -2,8 +2,8 @@
 <template>
   <div class="labels-com-wrapper">
     <ul class="tab-wrapper" :class="{'fixed': fixed}" id="tab-wrapper">
-      <li v-for="(item, index) in list" :key="index" :class="{'active': currentLabelIndex === index}" @click="checkedLabel(index)">
-        <span>{{item}}</span><i></i>
+      <li v-for="(item, index) in list" :key="index" :class="{'active': currentLabelIndex === index}" @click="checkedLabel(index, item.labelInfo)">
+        <span>{{item.labelInfo}}</span><i></i>
       </li>
       <li @click="clickAddBtn" v-if="addBtn">+</li>
     </ul>
@@ -23,7 +23,7 @@ import Confirm from '@/components/confirm.vue'
 export default {
   data() {
     return {
-      list: ['默认', '收藏', '加好', '我的一个'],
+      list: [{ labelInfo: '默认' }, { labelInfo: '收藏' }],
       currentLabelIndex: 0,
       showModel: false,
       fixed: false
@@ -33,13 +33,30 @@ export default {
     addBtn: {
       type: Boolean,
       default: true
+    },
+    labelList: {
+      type: Array,
+      default () {
+        return []
+      }
+    }
+  },
+  watch :{
+    labelList (newVal) {
+      let list = JSON.parse(JSON.stringify(newVal))
+      list.push({ labelInfo: '收藏' })
+      this.list = list
     }
   },
   methods: {
     // 选择标签，emit出去
-    checkedLabel (index) {
+    checkedLabel (index, labelInfo) {
       this.currentLabelIndex = index
-      this.$emit('emitChooseItem', index, this.list[index])
+      let last = false
+      if (index === this.list.length - 1) {
+        last = true
+      }
+      this.$emit('emitChooseItem', index, labelInfo, last)
     },
     // 点击+，显示弹窗，emit显示弹窗事件
     clickAddBtn () {

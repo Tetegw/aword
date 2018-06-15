@@ -15,7 +15,9 @@ const store = new Vuex.Store({
       author: '孙晨',
       labelItem: '默认',
       privacy: false
-    }
+    },
+    labelList: [],
+    cardObject: {}
   },
   mutations: {
     storeUserInfo (state, payload) {
@@ -27,7 +29,18 @@ const store = new Vuex.Store({
     storeMakePictureInfo(state, payload) {
       state.makePictureInfo = Object.assign({}, state.makePictureInfo, payload)
       console.log(state.makePictureInfo)
-    }
+    },
+    storeLabelList (state, payload) {
+      state.labelList = payload
+    },
+    storeCardObject (state, payload) {
+      let labelInfo = `card_${payload.labelInfo}`
+      if (!state.cardObject[labelInfo]) {
+        state.cardObject[labelInfo] = []
+      }
+      let card = state.cardObject[labelInfo].concat(payload.card)
+      state.cardObject = Object.assign({}, state.cardObject, {[labelInfo]: card})
+    },
   }
 })
 

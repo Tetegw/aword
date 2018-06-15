@@ -20,6 +20,7 @@ export default {
     ],
     window: {
       backgroundTextStyle: 'light',
+      backgroundColorTop: '#fff',
       navigationBarBackgroundColor: '#fff',
       navigationBarTitleText: 'WeChat',
       navigationBarTextStyle: 'black'

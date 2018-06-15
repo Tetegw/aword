@@ -8,11 +8,12 @@
     <div class="labels" :class="{'fixed': fixed}">
       <v-Labels
         @emitChooseItem="emitChooseItem"
+        :labelList="labelList"
       ></v-Labels>
     </div>
     <div class="labels-fill" v-show="fixed"></div>
     <v-Works
-      :currentCardList="currentCardList"
+      :currentCardList="cardObject[`card_${ChooseItem}`]"
     ></v-Works>
   </div>
 </template>
@@ -30,7 +31,7 @@ export default {
       boundingClientRectTop: 0,
       windowHeight: 0,
       fixed: false,
-      currentCardList: []
+      ChooseItem: '默认'
     }
   },
   created () {
@@ -42,8 +43,6 @@ export default {
     })
   },
   onLoad () {
-    // 请求每个模块前十条和收藏前十条
-    // this.getCollect()
     // APP.vue中一定是登录了，这里获取用户信息
     // 1. 没有头像，用户名，要求授权
     // 2. 信息齐全，不需要授权了
@@ -67,17 +66,25 @@ export default {
     },
     hasUserInfo () {
       return store.state.hasUserInfo
+    },
+    cardObject () {
+      return store.state.cardObject
+    },
+    labelList () {
+      return store.state.labelList
     }
   },
   methods: {
     // 获取当前登录用户信息
     getUserInfo () {
+      wx.showLoading()
       currentUser().then((res) => {
         console.log('第三方用户信息获取成功', res)
         if (!res.nickName || !res.userPic) {
           // 要求授权
           store.commit('storeHasUserInfo', false)
-        } else {
+          wx.hideLoading()
+        } else {      
           store.commit('storeUserInfo', res)
           store.commit('storeHasUserInfo', true)
           // 存储了用户信息后，获取默认
@@ -86,6 +93,7 @@ export default {
           this.getDefaultCard(res.objectId)
         }
       }).catch((err) => {
+        wx.hideLoading()
         console.log('第三方用户信息获取失败', err)
       })
     },
@@ -100,12 +108,36 @@ export default {
         console.log('第三方更新用户信息失败', err)
       })
     },
-    emitChooseItem(index) {
-      console.log('选择了,', index)
+    emitChooseItem(index, labelInfo, last) {
+      // console.log('选择了,',index, labelInfo, last)
+      this.ChooseItem = labelInfo
+      // 如果cardObject[`card_${ChooseItem}`]已存在，不再请求
+      if (this.cardObject[`card_${this.ChooseItem}`]) {
+        return
+      }
+      if (last) {
+        this.getCollect()
+      } else {
+        this.getSomeCard(this.userInfo.objectId, labelInfo)
+      }
     },
     getDefaultCard (userId) {
       getUserLabelCard(userId).then((res) => {
-        console.log('默认label', res)
+        store.commit('storeLabelList', res.label)
+        store.commit('storeCardObject', {labelInfo: this.ChooseItem, card: res.card})
+        wx.hideLoading()
+      }).catch((err) => {
+        wx.showToast({
+          title: '查询失败',
+          icon: 'none'
+        })
+      })
+    },
+    getSomeCard (userId, labelInfo) {
+      wx.showLoading()
+      getUserLabelCard(userId, labelInfo).then((res) => {
+        store.commit('storeCardObject', {labelInfo: labelInfo, card: res.card})
+        wx.hideLoading()
       }).catch((err) => {
         wx.showToast({
           title: '查询失败',
@@ -114,8 +146,10 @@ export default {
       })
     },
     getCollect () {
+      wx.showLoading()
       findCollectCards().then((res) => {
-        this.currentCardList = res
+        store.commit('storeCardObject', {labelInfo: this.ChooseItem, card: res})
+        wx.hideLoading()
       }).catch((err) => {
         wx.showToast({
           title: '获取失败',

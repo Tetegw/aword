@@ -27,16 +27,19 @@ export default {
   onShareAppMessage(){
   },
   created () {
-    findCards().then((res) => {
-      this.pictureList = res
-    }).catch((err) => {
-      wx.showToast({
-        title: '查询失败',
-        icon: 'none'
-      })
-    })
+    this.findAllCards()
   },
   methods: {
+    findAllCards () {
+      findCards().then((res) => {
+        this.pictureList = res
+      }).catch((err) => {
+        wx.showToast({
+          title: '查询失败',
+          icon: 'none'
+        })
+      })
+    },
     selectPicture (item) {
       let res = this.stringifyObject(item).slice(1)
       let url = `../showPicture/main?${res}`

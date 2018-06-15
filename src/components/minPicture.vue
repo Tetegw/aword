@@ -49,9 +49,6 @@ export default {
   left: 0;
   right: 0;
   background: #fff;
-  .upload{
-    transition: all 0.5s;      
-  }
   &.default{
     .upload{
       width: 100%;
@@ -187,7 +184,7 @@ export default {
       i{
         position: absolute;
         right: 2px; /*px*/
-        top: -8.8px; /*px*/
+        top: -8px; /*px*/
         content: '';
         width: 3.8px;
         height: 3.8px;
@@ -202,7 +199,7 @@ export default {
       i{
         position: absolute;
         left: 2px; /*px*/
-        top: -8.8px; /*px*/
+        top: -8px; /*px*/
         content: '';
         width: 3.8px;
         height: 3.8px;
