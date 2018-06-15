@@ -1,23 +1,39 @@
 <template>
   <div class="works-com-wrapper">
       <ul class="works-list">
-        <li>1</li>
-        <li>2</li>
-        <li>3</li>
         <li @click="makePicture">+</li>
+        <li v-for="(item, index) in currentCardList" :key="index">
+          <v-Picture
+            :PictureInfo="item"
+            :scale="true"
+          ></v-Picture>
+        </li>
       </ul>
   </div>
 </template>
 
 <script>
+import Picture from '@/components/picture.vue'
+
 export default {
+  props:{
+    currentCardList: {
+      type: Array,
+      default () {
+        return []
+      }
+    }
+  },
   methods: {
     makePicture() {
       wx.navigateTo({
         url: '../editInfo/main'
       })
     }
-  } 
+  },
+  components: {
+    'v-Picture': Picture
+  }
 }
 </script>
 

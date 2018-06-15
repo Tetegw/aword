@@ -47,6 +47,7 @@ export default {
   left: 0;
   right: 0;
   background: #fff;
+  transform: scale(0.4);
   .upload{
     transition: all 0.5s;      
   }

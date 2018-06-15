@@ -11,12 +11,14 @@
       ></v-Labels>
     </div>
     <div class="labels-fill" v-show="fixed"></div>
-    <v-Works></v-Works>
+    <v-Works
+      :currentCardList="currentCardList"
+    ></v-Works>
   </div>
 </template>
 
 <script>
-import { auth, upInfo, currentUser } from '@/bmob.js'
+import { upInfo, findCollectCards } from '@/bmob.js'
 import store from '@/store.js'
 
 import Labels from '@/components/labels.vue'
@@ -27,7 +29,8 @@ export default {
     return {
       boundingClientRectTop: 0,
       windowHeight: 0,
-      fixed: false
+      fixed: false,
+      currentCardList: []
     }
   },
   created () {
@@ -37,6 +40,8 @@ export default {
         _this.windowHeight = e.windowHeight + 'px'
       }
     })
+    // 请求每个模块前十条和收藏前十条
+    this.getCollect()
   },
   mounted () {
     wx.createSelectorQuery().select('#tab-wrapper').boundingClientRect((rect) => {
@@ -71,6 +76,16 @@ export default {
     },
     emitChooseItem(index) {
       console.log('选择了,', index)
+    },
+    getCollect () {
+      findCollectCards().then((res) => {
+        this.currentCardList = res
+      }).catch((err) => {
+        wx.showToast({
+          title: '获取失败',
+          icon: 'none'
+        })
+      })
     }
   },
   components: {

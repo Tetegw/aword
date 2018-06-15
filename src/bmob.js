@@ -86,3 +86,32 @@ export function findCards (currentPage = 1, size = 10) {
     })
   })
 }
+
+
+export function findCollectCards(currentPage = 1, size = 10) {
+  return new Promise((resolve, reject) => {
+    currentUser().then((res) => {
+      let userId = res.objectId
+      const collect = Bmob.Query('collect')
+      collect.equalTo('userId', '==', userId)
+      collect.limit(size)
+      collect.skip(size * (currentPage - 1))
+      collect.find().then((res) => {
+        let cardIdList = []
+        res.forEach((item, index) => {
+          cardIdList.push(item.cardId)
+        })
+        const card = Bmob.Query('card')
+        card.containedIn('objectId', cardIdList)
+        card.find().then((res) => {
+          console.log('bmob_findCollectCards===>', res)
+          resolve(res)
+        }).catch((err) => {
+          reject(err)
+        })
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  })
+}
