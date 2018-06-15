@@ -7,7 +7,7 @@ export function auth() {
   return new Promise((resolve, reject) => {
     Bmob.User.auth().then((res) => {
       console.log('bmob_auth====>', res)
-      resolve('登录成功')
+      resolve(res)
     }).catch((err) => {
       reject(err)
     })

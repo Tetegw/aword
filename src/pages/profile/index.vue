@@ -40,6 +40,8 @@ export default {
         _this.windowHeight = e.windowHeight + 'px'
       }
     })
+  },
+  onLoad () {
     // 请求每个模块前十条和收藏前十条
     this.getCollect()
   },
@@ -66,6 +68,7 @@ export default {
   methods: {
     // 更新第三方服务器用户信息
     updateUserInfo (e) {
+      console.log('用户信息===>', e)
       upInfo(e.target.userInfo).then((res) => {
         console.log('第三方更新用户信息成功', res)
         store.commit('storeUserInfo', e.target.userInfo)
