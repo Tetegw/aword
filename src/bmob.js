@@ -2,7 +2,7 @@ import Bmob from 'static/bmob/Bmob-1.4.4.min.js'
 import { ApplicationID, RESTAPIKey } from 'static/bmob/bmobKey.js'
 Bmob.initialize(ApplicationID, RESTAPIKey)
 
-
+// 登录
 export function auth() {
   return new Promise((resolve, reject) => {
     Bmob.User.auth().then((res) => {
@@ -14,6 +14,7 @@ export function auth() {
   })
 }
 
+// 更新用户信息
 export function upInfo (userInfo) {
   return new Promise((resolve, reject) => {
     Bmob.User.upInfo(userInfo).then((result) => {
@@ -25,7 +26,7 @@ export function upInfo (userInfo) {
   })
 }
 
-
+// 获取当前用户
 export function currentUser () {
   return new Promise((resolve, reject) => {
     let current = Bmob.User.current()
@@ -38,6 +39,7 @@ export function currentUser () {
   })
 }
 
+// 上传文件
 export function uploadFile (item, nickName) {
   return new Promise((resolve, reject) => {
     let name = `${nickName}_${new Date().getTime()}_${String(Math.random()).slice(2, 10)}.jpg`
@@ -51,10 +53,10 @@ export function uploadFile (item, nickName) {
   })
 }
 
+// 创建卡片
 export function create (params) {
   return new Promise((resolve, reject) => {
     currentUser().then((res) => {
-      console.log('当前用户', res)
       const card = Bmob.Query('card')
       card.set('userId', res.objectId)
       card.set('imgUrl', params.imgUrl)
@@ -68,11 +70,13 @@ export function create (params) {
       }).catch(err => {
         reject(err)
       })
+    }).catch((err) => {
+      reject(err)
     })
   })
 }
 
-
+// 获取所有人的卡片
 export function findCards (currentPage = 1, size = 10) {
   return new Promise((resolve, reject) => {
     const query = Bmob.Query('card')
@@ -88,6 +92,7 @@ export function findCards (currentPage = 1, size = 10) {
 }
 
 
+// 获取当前用户的收藏
 export function findCollectCards(currentPage = 1, size = 10) {
   return new Promise((resolve, reject) => {
     currentUser().then((res) => {
@@ -112,6 +117,50 @@ export function findCollectCards(currentPage = 1, size = 10) {
       }).catch((err) => {
         reject(err)
       })
+    }).catch((err) => {
+      reject(err)
+    })
+  })
+}
+
+// 获取当前用户的所有分类
+export function getUserLabels(userId) {
+  return new Promise((resolve, reject) => {
+    const label = Bmob.Query('label')
+    label.equalTo('userId', '==', userId)
+    label.find().then((res) => {
+      console.log('bmob_getUserLabels===>', res)
+      resolve(res)
+    }).catch((err) => {
+      reject(err)
+    })
+  })
+}
+
+
+// 获取某用户某栏目的的卡片数据
+export function getUserLabelCard(userId, labelInfo = '默认', currentPage = 1, size = 10) {
+  return new Promise((resolve, reject) => {
+    getUserLabels(userId).then((res) => {
+      let labelId = ''
+      for (let i = 0; i < res.length; i++) {
+        let item = res[i]
+        if (item.labelInfo === labelInfo) {
+          labelId = item.objectId
+        }
+      }
+      const card = Bmob.Query('card')
+      card.equalTo('labelId', '==', labelId)
+      card.limit(size)
+      card.skip(size * (currentPage - 1))
+      card.find().then((res) => {
+        console.log('bmob_getUserLabelCard===>', res)
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    }).catch((err) => {
+      reject(err)
     })
   })
 }

@@ -1,3 +1,4 @@
+
 <template>
   <div class="picture" :class="PictureInfo_.picClass" id="picture">
     <div class="upload">
@@ -40,6 +41,7 @@ export default {
 </script>
 
 <style scoped lang="less">  
+/*355px 134px*/
 .picture{
   position: absolute;
   top: 0;
@@ -53,23 +55,23 @@ export default {
   &.default{
     .upload{
       width: 100%;
-      height: 210px;
+      height: 80px;
       background: #f1f1f1;
       position: relative;
       .img{
         width: 100%;
-        height: 210px;
+        height: 80px;
       }
       .add{
-        font-size: 20px;
-        width: 30px;
-        height: 30px;
+        font-size: 7.6px;
+        width: 11.5px;
+        height: 11.5px;
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         text-align: center;
-        line-height: 28px;
+        line-height: 20.7px;
         border: 1px solid #999; /*px*/
         color: #999;
         border-radius: 50%;
@@ -79,35 +81,35 @@ export default {
   &.skew{
     .upload{
       width: 100%;
-      height: 210px;
+      height: 80px;
       overflow: hidden;
       position: relative;
       background: #f1f1f1;
       &::after{
         content: '';
         position: absolute;
-        bottom: -149px;
+        bottom: -57px;
         left: 0;
         background: #fff;
         width: 200%;
-        height: 150px;
+        height: 57px;
         transform: rotate(-14deg);
         transform-origin: left top;
       }
       .img{
         width: 100%;
-        height: 210px;
+        height: 80px;
       }
       .add{
-        font-size: 20px;
-        width: 30px;
-        height: 30px;
+        font-size: 7.6px;
+        width: 11.5px;
+        height: 11.5px;
         position: absolute;
         top: 40%;
         left: 50%;
         transform: translate(-50%, -50%);
         text-align: center;
-        line-height: 28px;
+        line-height: 10.7px;
         border: 1px solid #999; /*px*/
         color: #999;
         border-radius: 50%;
@@ -118,44 +120,44 @@ export default {
     border: 1px solid transparent; /*px*/
     box-sizing: border-box;
     .upload{
-      width: 160px;
-      height: 160px;
+      width: 60px;
+      height: 60px;
       position: relative;
       background: #f1f1f1;
-      margin: 30px auto;
+      margin: 11px auto;
       border-radius: 50%;
       overflow: hidden;
       .img{
         width: 100%;
-        height: 160px;
+        height: 60px;
       }
       .add{
-        font-size: 20px;
-        width: 30px;
-        height: 30px;
+        font-size: 7.5px;
+        width: 11px;
+        height: 11px;
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         text-align: center;
-        line-height: 28px;
+        line-height: 10px;
         color: #999;
       }
     }
     .content{
       position: absolute;
-      top: 250px;
+      top: 96px;
     }
   }
   .content{
     position: absolute;
-    top: 265px;
+    top: 100px;
     left: 50%;
     transform: translate(-50%);
-    font-size: 16px;  /*px*/
-    line-height: 24px;    /*px*/ 
+    font-size: 6px;  /*px*/
+    line-height: 9.2px;    /*px*/ 
     &.across-left{
-      top: 260px;
+      top: 100px;
       width: 70%;
       text-align: left;
       i{
@@ -164,7 +166,7 @@ export default {
     }
     &.across-center{
       width: 70%;
-      top: 260px;        
+      top: 100px;        
       text-align: center;
       i{
         display: none;
@@ -172,45 +174,45 @@ export default {
     }
     &.across-right{
       width: 70%;
-      top: 260px;        
+      top: 100px;        
       text-align: right;
       i{
         display: none;
       }
     }
     &.vertical-right{
-      height: 195px;
+      height: 38px;
       writing-mode: vertical-rl;
       letter-spacing:1px;  /*px*/ 
       i{
         position: absolute;
-        right: 5px; /*px*/
-        top: -23px; /*px*/
+        right: 2px; /*px*/
+        top: -8.8px; /*px*/
         content: '';
-        width: 10px;
-        height: 10px;
+        width: 3.8px;
+        height: 3.8px;
         border-radius: 50%;
-        border: 2px solid red; /*px*/
+        border: 1px solid red; /*px*/
       }
     }
     &.vertical-left{
-      height: 195px;
+      height: 75px;
       writing-mode: vertical-lr;
       letter-spacing:1px;  /*px*/ 
       i{
         position: absolute;
-        left: 5px; /*px*/
-        top: -23px; /*px*/
+        left: 2px; /*px*/
+        top: -8.8px; /*px*/
         content: '';
-        width: 10px;
-        height: 10px;
+        width: 3.8px;
+        height: 3.8px;
         border-radius: 50%;
-        border: 2px solid red; /*px*/
+        border: 1px solid red; /*px*/
       }
     }
   }
   .author{
-    font-size: 14px;
+    font-size: 5.3px;
     color: #999;
     font-family:'PingFang SC','Droid Sans',HelveticaNeue,"Helvetica Neue",arial,sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -229,7 +231,7 @@ export default {
     span{
       display: inline-block;
       vertical-align: middle;        
-      max-width: 230px;
+      max-width: 88.4px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;

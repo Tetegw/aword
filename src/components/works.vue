@@ -3,17 +3,16 @@
       <ul class="works-list">
         <li @click="makePicture">+</li>
         <li v-for="(item, index) in currentCardList" :key="index">
-          <v-Picture
+          <v-MinPicture
             :PictureInfo="item"
-            :scale="true"
-          ></v-Picture>
+          ></v-MinPicture>
         </li>
       </ul>
   </div>
 </template>
 
 <script>
-import Picture from '@/components/picture.vue'
+import MinPicture from '@/components/minPicture.vue'
 
 export default {
   props:{
@@ -32,7 +31,7 @@ export default {
     }
   },
   components: {
-    'v-Picture': Picture
+    'v-MinPicture': MinPicture
   }
 }
 </script>
@@ -42,13 +41,15 @@ export default {
   padding: 20px;
   ul.works-list{
     display: flex;
-    justify-content: space-around;
     flex-wrap: wrap;
     li{
       width: 40%;
+      margin: 0 5%;
       background: #eee;
+      box-shadow: 1px 1px 2px 2px #eee;
       margin-bottom: 20px;
       text-align: center;
+      position: relative;
       &::before {
         content: '';
         padding-top: 177%;
