@@ -2,18 +2,19 @@
   <div class="edit-info-wrapper">
       <div class="content">
         <p class="title">正文</p>
-        <textarea class="text-input" name="" id="" cols="30" rows="10" :disabled="InputDisabled" v-model="contentInput"></textarea>
+        <textarea class="text-input" placeholder="请输入正文" name="" id="" cols="30" rows="10" :disabled="InputDisabled" v-model="contentInput"></textarea>
       </div>
       <div class="author">
         <p class="title">出处</p>
         <div>
           <div class="btn" @click="inputQuotes">《》</div>
-          <input class="text-input" type="text" v-model="authorInput" :disabled="InputDisabled">
+          <input class="text-input" placeholder="请输入出处" type="text" v-model="authorInput" :disabled="InputDisabled">
         </div>
       </div>
       <div class="label">
         <p class="title">标签</p>
         <v-Labels
+          :labelList="labelList"
           @emitChooseItem="emitChooseItem"
           @emitConfirm="emitConfirm"
           @emitShowModel="emitShowModel"
@@ -27,12 +28,14 @@
 </template>
 
 <script>
+import { getUserLabels } from '@/bmob.js'
 import Labels from '@/components/labels.vue'
 import store from '@/store.js'
 
 export default {
   data() {
     return {
+      labelList: [{ labelInfo: '默认' }],
       contentInput: '',
       authorInput: '',
       labelItem: '',
@@ -40,7 +43,21 @@ export default {
       InputDisabled: false
     }
   },
+  onLoad () {
+    //TODO: onLoad 下次不会再执行
+    this.getLabels()
+  },
   methods: {
+    getLabels () {
+      getUserLabels().then((res) => {
+        this.labelList = res
+      }).catch((err) => {
+        wx.showToast({
+          title: '获取栏目失败',
+          icon: 'none'
+        })
+      })
+    },
     // 输入书名号
     inputQuotes() {
       this.authorInput = this.authorInput + '《》'
@@ -65,6 +82,13 @@ export default {
     },
     // 提交本页内容，存入store
     submit () {
+      if (!this.contentInput) {
+        wx.showToast({
+          title: '请填写正文',
+          icon: 'none'
+        })
+        return
+      }
       store.commit('storeMakePictureInfo', {
         content: this.contentInput,
         author: this.authorInput,
@@ -97,7 +121,12 @@ export default {
   .text-input{
     width: 100%;
     box-sizing: border-box;
-    padding: 10px;
+    padding: 5px 10px;
+  }
+  .content{
+    .text-input{
+      padding: 10px 10px;
+    }
   }
   .author{
     position: relative;

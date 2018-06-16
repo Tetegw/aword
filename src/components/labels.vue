@@ -23,7 +23,7 @@ import Confirm from '@/components/confirm.vue'
 export default {
   data() {
     return {
-      list: [{ labelInfo: '默认' }, { labelInfo: '收藏' }],
+      list: this.labelList,
       currentLabelIndex: 0,
       showModel: false,
       fixed: false
@@ -37,26 +37,20 @@ export default {
     labelList: {
       type: Array,
       default () {
-        return []
+        return [{ labelInfo: '默认' }]
       }
     }
   },
   watch :{
     labelList (newVal) {
-      let list = JSON.parse(JSON.stringify(newVal))
-      list.push({ labelInfo: '收藏' })
-      this.list = list
+      this.list = newVal
     }
   },
   methods: {
     // 选择标签，emit出去
     checkedLabel (index, labelInfo) {
       this.currentLabelIndex = index
-      let last = false
-      if (index === this.list.length - 1) {
-        last = true
-      }
-      this.$emit('emitChooseItem', index, labelInfo, last)
+      this.$emit('emitChooseItem', index, labelInfo)
     },
     // 点击+，显示弹窗，emit显示弹窗事件
     clickAddBtn () {

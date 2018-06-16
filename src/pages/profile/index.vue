@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { upInfo, findCollectCards, getUserLabelCard, currentUser } from '@/bmob.js'
+import { upInfo, getUserLabelCard, currentUser } from '@/bmob.js'
 import store from '@/store.js'
 
 import Labels from '@/components/labels.vue'
@@ -83,15 +83,11 @@ export default {
         if (!res.nickName || !res.userPic) {
           // 要求授权
           store.commit('storeHasUserInfo', false)
-          wx.hideLoading()
-        } else {      
-          store.commit('storeUserInfo', res)
+        } else {
           store.commit('storeHasUserInfo', true)
-          // 存储了用户信息后，获取默认
-          // 1. 第一次授权后执行
-          // 2. 数据库有用户头像了，登录成功后，直接获取
-          this.getDefaultCard(res.objectId)
         }
+        store.commit('storeUserInfo', res)
+        this.getDefaultCard(res.objectId)
       }).catch((err) => {
         wx.hideLoading()
         console.log('第三方用户信息获取失败', err)
@@ -108,18 +104,14 @@ export default {
         console.log('第三方更新用户信息失败', err)
       })
     },
-    emitChooseItem(index, labelInfo, last) {
+    emitChooseItem(index, labelInfo) {
       // console.log('选择了,',index, labelInfo, last)
       this.ChooseItem = labelInfo
       // 如果cardObject[`card_${ChooseItem}`]已存在，不再请求
       if (this.cardObject[`card_${this.ChooseItem}`]) {
         return
       }
-      if (last) {
-        this.getCollect()
-      } else {
-        this.getSomeCard(this.userInfo.objectId, labelInfo)
-      }
+      this.getSomeCard(this.userInfo.objectId, labelInfo)
     },
     getDefaultCard (userId) {
       getUserLabelCard(userId).then((res) => {
@@ -141,18 +133,6 @@ export default {
       }).catch((err) => {
         wx.showToast({
           title: '查询失败',
-          icon: 'none'
-        })
-      })
-    },
-    getCollect () {
-      wx.showLoading()
-      findCollectCards().then((res) => {
-        store.commit('storeCardObject', {labelInfo: this.ChooseItem, card: res})
-        wx.hideLoading()
-      }).catch((err) => {
-        wx.showToast({
-          title: '获取失败',
           icon: 'none'
         })
       })

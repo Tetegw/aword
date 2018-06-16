@@ -14,6 +14,45 @@ export function auth() {
   })
 }
 
+// 创建当前用户默认标签
+export function createCurUserDefaultLabel (userId) {
+  return new Promise((resolve, reject) => {
+    const QueryLabel = Bmob.Query('label')
+    QueryLabel.equalTo('userId', '==', userId)
+    QueryLabel.equalTo('labelInfo', '==', '默认')
+    QueryLabel.find().then((res) => {
+      // 如果不存在，就创建
+      if (!res.length) {
+        createLable(userId, '默认').then((res) => {
+          resolve(res)
+        }).catch((err) => {
+          reject(err)
+        })
+      }
+    }).catch((err) => {
+      reject(err)
+    })
+  })
+}
+
+// 创建标签
+export function createLable (userId, labelInfo) {
+  return new Promise((resolve, reject) => {
+    const label = Bmob.Query('label')
+    label.set('userId', userId)
+    label.set('labelInfo', labelInfo)
+    label.save().then((res) => {
+      console.log('bmob_createLable===>', res)
+      resolve(res)
+    }).catch(err => {
+      reject(err)
+    })
+  })
+}
+
+
+
+
 // 更新用户信息
 export function upInfo (userInfo) {
   return new Promise((resolve, reject) => {
@@ -40,9 +79,9 @@ export function currentUser () {
 }
 
 // 上传文件
-export function uploadFile (item, nickName) {
+export function uploadFile (item, objectId) {
   return new Promise((resolve, reject) => {
-    let name = `${nickName}_${new Date().getTime()}_${String(Math.random()).slice(2, 10)}.jpg`
+    let name = `${objectId}_${new Date().getTime()}_${String(Math.random()).slice(2, 10)}.jpg`
     let file = Bmob.File(name, item);
     file.save().then((res) => {
       console.log('bmob_uploadFile===>', res)
@@ -83,7 +122,7 @@ export function findCards (currentPage = 1, size = 10) {
     query.limit(size)
     query.skip(size * (currentPage - 1))
     query.find().then((res) => {
-      console.log('bmob_findCards===>', res)      
+      console.log('bmob_findCards===>', res.reverse())      
       resolve(res)
     }).catch((err) => {
       reject(err)

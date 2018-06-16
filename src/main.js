@@ -13,8 +13,7 @@ export default {
     // 页面前带有 ^ 符号的，会被编译成首页，其他页面可以选填，我们会自动把 webpack entry 里面的入口页面加进去
     pages: [
       '^pages/index/main', 
-      'pages/profile/main', 
-      'pages/editInfo/main', 
+      'pages/profile/main',
       'pages/editPicture/main',
       'pages/showPicture/main',
     ],
@@ -33,6 +32,14 @@ export default {
         {
           pagePath: 'pages/index/main',
           text: '主页'
+        },
+        {
+          pagePath: 'pages/collect/main',
+          text: '收藏'
+        },
+        {
+          pagePath: 'pages/new/main',
+          text: '新建'
         },
         {
           pagePath: 'pages/profile/main',

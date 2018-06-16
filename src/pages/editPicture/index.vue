@@ -6,11 +6,11 @@
           <img mode="aspectFill" class="img" @click="addPicture" :src="filePath" />
           <div class="add" @click="addPicture" v-show="!filePath">+</div>
         </div>
-        <div class="content" :class="fontClass">
-          <i v-show="PictureInfo.content"></i>
+        <div class="content" :class="fontClass" v-show="PictureInfo.content">
+          <i ></i>
           {{PictureInfo.content}}
         </div>
-        <div class="author"><i>-&nbsp;</i><span>{{PictureInfo.author}}</span><i>&nbsp;-</i></div>
+        <div class="author" v-show="PictureInfo.author"><i>-&nbsp;</i><span>{{PictureInfo.author}}</span><i>&nbsp;-</i></div>
       </div>
     </div>
     <v-Setting
@@ -65,8 +65,8 @@ export default {
     },
     uploadImg () {
       let file = this.filePath[0]
-      let nickName = this.userInfo.nickName
-      uploadFile(file, nickName).then((res) => {
+      let userId = this.userInfo.objectId
+      uploadFile(file, userId).then((res) => {
         console.log(res)
         this.createPicture(JSON.parse(res[0]).url)
       }).catch((err) => {

@@ -1,7 +1,6 @@
 <template>
   <div class="works-com-wrapper">
       <ul class="works-list">
-        <li @click="makePicture" class="add">+</li>
         <li v-for="(item, index) in currentCardList" :key="index">
           <v-MinPicture
             :PictureInfo="item"
@@ -12,6 +11,7 @@
 </template>
 
 <script>
+// TODO: 没有时空空如也
 import MinPicture from '@/components/minPicture.vue'
 
 export default {
@@ -21,13 +21,6 @@ export default {
       default () {
         return []
       }
-    }
-  },
-  methods: {
-    makePicture() {
-      wx.navigateTo({
-        url: '../editInfo/main'
-      })
     }
   },
   components: {
