@@ -1,7 +1,7 @@
 <template>
   <div class="works-com-wrapper">
       <ul class="works-list">
-        <li v-for="(item, index) in currentCardList" :key="index">
+        <li v-for="(item, index) in currentCardList" :key="index" @click="selectPicture(item)  " v-if="!item.privacy || userInfo.objectId === item.userId">
           <v-MinPicture
             :PictureInfo="item"
           ></v-MinPicture>
@@ -13,6 +13,7 @@
 <script>
 // TODO: 没有时空空如也
 import MinPicture from '@/components/minPicture.vue'
+import store from '@/store.js'
 
 export default {
   props:{
@@ -21,6 +22,30 @@ export default {
       default () {
         return []
       }
+    }
+  },
+  computed: {
+    userInfo () {
+      return store.state.userInfo
+    }
+  },
+  methods: {
+    selectPicture (item) {
+      let res = this.stringifyObject(item).slice(1)
+      let url = `../showPicture/main?${res}`
+      wx.navigateTo({
+        url: url
+      })
+    },
+    stringifyObject(item){
+      let res = ''
+      for (let key in item) {
+        if (item.hasOwnProperty(key)) {
+          let value = item[key]
+          res += `&${key}=${value}`
+        }
+      }
+      return res
     }
   },
   components: {

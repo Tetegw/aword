@@ -16,7 +16,7 @@ export default {
       collectList: []
     }
   },
-  onLoad () {
+  onShow () {
     this.getCollect()
   },
   methods: {

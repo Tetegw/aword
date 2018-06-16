@@ -28,18 +28,14 @@ const store = new Vuex.Store({
     },
     storeMakePictureInfo(state, payload) {
       state.makePictureInfo = Object.assign({}, state.makePictureInfo, payload)
-      console.log(state.makePictureInfo)
+      console.log('state.makePictureInfo', state.makePictureInfo)
     },
     storeLabelList (state, payload) {
       state.labelList = payload
     },
     storeCardObject (state, payload) {
       let labelInfo = `card_${payload.labelInfo}`
-      if (!state.cardObject[labelInfo]) {
-        state.cardObject[labelInfo] = []
-      }
-      let card = state.cardObject[labelInfo].concat(payload.card)
-      state.cardObject = Object.assign({}, state.cardObject, {[labelInfo]: card})
+      state.cardObject = Object.assign({}, state.cardObject, { [labelInfo]: payload.card})
     },
   }
 })

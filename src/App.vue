@@ -33,6 +33,7 @@ export default {
       })
     },
     createDefaultLabel (userId) {
+      console.log('userIduserIduserIduserIduserId', userId)
       createCurUserDefaultLabel(userId).then((res) => {
         console.log('创建默认label成功', res)
       }).catch((err) => {

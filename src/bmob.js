@@ -95,12 +95,18 @@ export function uploadFile (item, objectId) {
 // 创建卡片
 export function create (params) {
   return new Promise((resolve, reject) => {
+    if (!params.content || !params.labelId) {
+      reject('信息有误')
+      return
+    }
     currentUser().then((res) => {
       const card = Bmob.Query('card')
       card.set('userId', res.objectId)
       card.set('imgUrl', params.imgUrl)
       card.set('content', params.content)
       card.set('author', params.author)
+      card.set('privacy', params.privacy)
+      card.set('labelId', params.labelId)
       card.set('picClass', params.picClass)
       card.set('fontClass', params.fontClass)
       card.save().then((res) => {

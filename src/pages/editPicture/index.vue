@@ -33,8 +33,6 @@ export default {
       fontClass: 'vertical-left',
     }
   },
-  created () {
-  },
   onShareAppMessage: function (res) {
     return {
       title: '一言以蔽之',
@@ -83,6 +81,8 @@ export default {
         imgUrl: imgUrl,
         content: this.PictureInfo.content,
         author: this.PictureInfo.author,
+        labelId: this.PictureInfo.labelId,
+        privacy: this.PictureInfo.privacy,
         picClass: this.picClass,
         fontClass: this.fontClass
       }

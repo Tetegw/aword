@@ -26,7 +26,7 @@ export default {
   },
   onShareAppMessage(){
   },
-  created () {
+  onShow () {
     this.findAllCards()
   },
   methods: {

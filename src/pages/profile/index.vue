@@ -42,7 +42,7 @@ export default {
       }
     })
   },
-  onLoad () {
+  onShow () {
     // APP.vue中一定是登录了，这里获取用户信息
     // 1. 没有头像，用户名，要求授权
     // 2. 信息齐全，不需要授权了
@@ -87,7 +87,7 @@ export default {
           store.commit('storeHasUserInfo', true)
         }
         store.commit('storeUserInfo', res)
-        this.getDefaultCard(res.objectId)
+        this.getSomeCard(res.objectId, this.ChooseItem)
       }).catch((err) => {
         wx.hideLoading()
         console.log('第三方用户信息获取失败', err)
@@ -108,26 +108,16 @@ export default {
       // console.log('选择了,',index, labelInfo, last)
       this.ChooseItem = labelInfo
       // 如果cardObject[`card_${ChooseItem}`]已存在，不再请求
-      if (this.cardObject[`card_${this.ChooseItem}`]) {
+      if (this.cardObject[`card_${labelInfo}`]) {
         return
       }
       this.getSomeCard(this.userInfo.objectId, labelInfo)
     },
-    getDefaultCard (userId) {
-      getUserLabelCard(userId).then((res) => {
-        store.commit('storeLabelList', res.label)
-        store.commit('storeCardObject', {labelInfo: this.ChooseItem, card: res.card})
-        wx.hideLoading()
-      }).catch((err) => {
-        wx.showToast({
-          title: '查询失败',
-          icon: 'none'
-        })
-      })
-    },
     getSomeCard (userId, labelInfo) {
+      console.log('获取labelInfo的数据', labelInfo)
       wx.showLoading()
       getUserLabelCard(userId, labelInfo).then((res) => {
+        store.commit('storeLabelList', res.label)
         store.commit('storeCardObject', {labelInfo: labelInfo, card: res.card})
         wx.hideLoading()
       }).catch((err) => {
@@ -136,7 +126,8 @@ export default {
           icon: 'none'
         })
       })
-    }
+    },
+    // TODO: 下拉加载，调用新方法，storeCardObject的时候拼起来传过去
   },
   components: {
     'v-Labels': Labels,

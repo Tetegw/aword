@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { getUserLabels } from '@/bmob.js'
+import { getUserLabels, currentUser } from '@/bmob.js'
 import Labels from '@/components/labels.vue'
 import store from '@/store.js'
 
@@ -36,21 +36,30 @@ export default {
   data() {
     return {
       labelList: [{ labelInfo: '默认' }],
+      labelIndex: 0,
       contentInput: '',
       authorInput: '',
-      labelItem: '',
       privacy: false,
       InputDisabled: false
     }
   },
-  onLoad () {
-    //TODO: onLoad 下次不会再执行
+  onShow () {
     this.getLabels()
   },
   methods: {
     getLabels () {
-      getUserLabels().then((res) => {
-        this.labelList = res
+      wx.showLoading()
+      currentUser().then((res) => {
+        let userId = res.objectId
+        getUserLabels(userId).then((res) => {
+          wx.hideLoading()
+          this.labelList = res
+        }).catch((err) => {
+          wx.showToast({
+            title: '获取栏目失败',
+            icon: 'none'
+          })
+        })
       }).catch((err) => {
         wx.showToast({
           title: '获取栏目失败',
@@ -67,9 +76,9 @@ export default {
       this.InputDisabled = true
     },
     // 接受选中Label的回调
-    emitChooseItem(index, item) {
-      console.log('选中了', index, item)
-      this.labelItem = item
+    emitChooseItem(index, labelInfo) {
+      console.log('选中了', index, labelInfo)
+      this.labelIndex = index
     },
     // 接受弹窗确认的回调
     emitConfirm (payload) {
@@ -92,7 +101,7 @@ export default {
       store.commit('storeMakePictureInfo', {
         content: this.contentInput,
         author: this.authorInput,
-        labelItem: this.labelItem || '默认',
+        labelId: this.labelList[this.labelIndex] && this.labelList[this.labelIndex].objectId,
         privacy: this.privacy || false
       })
       wx.navigateTo({
