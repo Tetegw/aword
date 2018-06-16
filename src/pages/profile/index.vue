@@ -8,6 +8,7 @@
     <div class="labels" :class="{'fixed': fixed}">
       <v-Labels
         @emitChooseItem="emitChooseItem"
+        @emitConfirm="emitConfirm"
         :labelList="labelList"
       ></v-Labels>
     </div>
@@ -19,7 +20,7 @@
 </template>
 
 <script>
-import { upInfo, getUserLabelCard, currentUser } from '@/bmob.js'
+import { upInfo, getUserLabelCard, currentUser, createLable, getUserLabels } from '@/bmob.js'
 import store from '@/store.js'
 
 import Labels from '@/components/labels.vue'
@@ -112,6 +113,26 @@ export default {
         return
       }
       this.getSomeCard(this.userInfo.objectId, labelInfo)
+    },
+    emitConfirm (payload) {
+      wx.showLoading()      
+      createLable(payload).then((res) => {
+        // 创建了，刷新label
+        let userId = this.userInfo.objectId
+        getUserLabels(userId).then((res) => {
+          wx.hideLoading()
+          store.commit('storeLabelList', res)
+        }).catch((err) => {
+          wx.hideLoading()
+          console.log('获取用户列表失败', err)
+        })
+      }).catch((err) => {
+        let title = err === '该分类已存在' ? err : '创建失败'
+        wx.showToast({
+          title: title,
+          icon: 'none'
+        })
+      })
     },
     getSomeCard (userId, labelInfo) {
       console.log('获取labelInfo的数据', labelInfo)

@@ -64,7 +64,6 @@ export default {
     },
     // TODO: 确定数据，隐藏弹窗，emit出确定的数据和索引
     emitConfirm(payload) {
-      console.log(payload)
       this.$emit('emitConfirm', payload)
       this.showModel = false
     }

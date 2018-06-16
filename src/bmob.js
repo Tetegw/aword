@@ -36,22 +36,35 @@ export function createCurUserDefaultLabel (userId) {
 }
 
 // 创建标签
-export function createLable (userId, labelInfo) {
+export function createLable (labelInfo) {
   return new Promise((resolve, reject) => {
-    const label = Bmob.Query('label')
-    label.set('userId', userId)
-    label.set('labelInfo', labelInfo)
-    label.save().then((res) => {
-      console.log('bmob_createLable===>', res)
-      resolve(res)
-    }).catch(err => {
+    currentUser().then((res) => {
+      let userId = res.objectId
+      const label = Bmob.Query('label')
+      label.equalTo('userId', '==', userId)
+      label.equalTo('labelInfo', '==', labelInfo)
+      label.find().then(res => {
+        console.log('resresresres', res)
+        if (!res.length) {
+          label.set('userId', userId)
+          label.set('labelInfo', labelInfo)
+          label.save().then((res) => {
+            console.log('bmob_createLable===>', res)
+            resolve(res)
+          }).catch(err => {
+            reject(err)
+          })
+        } else {
+          reject('该分类已存在')
+        }
+      }).catch((err) => {
+        reject(err)
+      })
+    }).catch((err) => {
       reject(err)
     })
   })
 }
-
-
-
 
 // 更新用户信息
 export function upInfo (userInfo) {
@@ -136,7 +149,6 @@ export function findCards (currentPage = 1, size = 10) {
   })
 }
 
-
 // 获取当前用户的收藏
 export function findCollectCards(currentPage = 1, size = 10) {
   return new Promise((resolve, reject) => {
@@ -168,20 +180,19 @@ export function findCollectCards(currentPage = 1, size = 10) {
   })
 }
 
-// 获取当前用户的所有分类
+// 获取某用户的所有分类
 export function getUserLabels(userId) {
   return new Promise((resolve, reject) => {
     const label = Bmob.Query('label')
     label.equalTo('userId', '==', userId)
     label.find().then((res) => {
       console.log('bmob_getUserLabels===>', res)
-      resolve(res.reverse())
+      resolve(res)
     }).catch((err) => {
       reject(err)
     })
   })
 }
-
 
 // 获取某用户某栏目的的卡片数据
 export function getUserLabelCard(userId, labelInfo = '默认', currentPage = 1, size = 10) {

@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { getUserLabels, currentUser } from '@/bmob.js'
+import { getUserLabels, currentUser, createLable } from '@/bmob.js'
 import Labels from '@/components/labels.vue'
 import store from '@/store.js'
 
@@ -82,8 +82,29 @@ export default {
     },
     // 接受弹窗确认的回调
     emitConfirm (payload) {
-      // 获取添加便签的数据
-      console.log(payload)
+      wx.showLoading()
+      createLable(payload).then((res) => {
+        currentUser().then((res) => {
+          // 创建了，刷新label
+          let userId = res.objectId
+          getUserLabels(userId).then((res) => {
+            wx.hideLoading()
+            this.labelList = res
+          }).catch((err) => {
+            wx.hideLoading()
+            console.log('获取用户列表失败', err)
+          })
+        }).catch((err) => {
+          wx.hideLoading()
+          console.log('获取本地用户失败', err)
+        })
+      }).catch((err) => {
+        let title = err === '该分类已存在' ? err : '创建失败'
+        wx.showToast({
+          title: title,
+          icon: 'none'
+        })
+      })
     },
     // 设置隐私和公开
     setPrivacy() {
