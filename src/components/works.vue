@@ -1,17 +1,17 @@
 <template>
   <div class="works-com-wrapper">
-      <ul class="works-list">
+      <ul class="works-list" v-show="currentCardList.length">
         <li v-for="(item, index) in currentCardList" :key="index" @click="selectPicture(item)  " v-if="!item.privacy || userInfo.objectId === item.userId">
           <v-MinPicture
             :PictureInfo="item"
           ></v-MinPicture>
         </li>
       </ul>
+      <div class="empty" v-show="!currentCardList.length">- 空空如也 -</div>
   </div>
 </template>
 
 <script>
-// TODO: 没有时空空如也
 import MinPicture from '@/components/minPicture.vue'
 import store from '@/store.js'
 
@@ -79,6 +79,11 @@ export default {
         clear: both;
       }
     }
+  }
+  .empty{
+    text-align: center;
+    font-size: 14px;
+    color: #aaa;
   }
 }
 </style>

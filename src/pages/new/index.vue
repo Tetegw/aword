@@ -17,6 +17,7 @@
           :labelList="labelList"
           @emitChooseItem="emitChooseItem"
           @emitConfirm="emitConfirm"
+          @emitHideModel="emitHideModel"
           @emitShowModel="emitShowModel"
         ></v-Labels>
       </div>
@@ -82,6 +83,7 @@ export default {
     },
     // 接受弹窗确认的回调
     emitConfirm (payload) {
+      this.InputDisabled = false
       wx.showLoading()
       createLable(payload).then((res) => {
         currentUser().then((res) => {
@@ -105,6 +107,9 @@ export default {
           icon: 'none'
         })
       })
+    },
+    emitHideModel () {
+      this.InputDisabled = false
     },
     // 设置隐私和公开
     setPrivacy() {
