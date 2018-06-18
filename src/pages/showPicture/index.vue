@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import { createCollect } from '@/bmob.js'
 import Picture from '@/components/picture.vue'
 
 export default {
@@ -35,13 +36,13 @@ export default {
         success (res) {
           switch (res.tapIndex) {
             case 0:
-              _this.collect()
+              console.log('作者页')
               break;
             case 1:
               _this.collect()
               break;
             case 2:
-              _this.collect()
+             console.log('转发')
               break;
             case 3:
               _this.copyText()
@@ -54,10 +55,19 @@ export default {
       })
     },
     collect () {
-      wx.showToast({
-        title: '收藏成功',
-        icon: 'none'
+      let cardId = this.PictureInfo.objectId
+      createCollect(cardId).then((res) => {
+        wx.showToast({
+          title: '收藏成功',
+          icon: 'none'
+        })
+      }).catch((err) => {
+        wx.showToast({
+          title: '收藏失败',
+          icon: 'none'
+        })
       })
+      
     },
     copyText () {
       wx.setClipboardData({

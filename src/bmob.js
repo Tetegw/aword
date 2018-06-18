@@ -14,29 +14,8 @@ export function auth() {
   })
 }
 
-// 创建当前用户默认标签
-export function createCurUserDefaultLabel (userId) {
-  return new Promise((resolve, reject) => {
-    const QueryLabel = Bmob.Query('label')
-    QueryLabel.equalTo('userId', '==', userId)
-    QueryLabel.equalTo('labelInfo', '==', '默认')
-    QueryLabel.find().then((res) => {
-      // 如果不存在，就创建
-      if (!res.length) {
-        createLable(userId, '默认').then((res) => {
-          resolve(res)
-        }).catch((err) => {
-          reject(err)
-        })
-      }
-    }).catch((err) => {
-      reject(err)
-    })
-  })
-}
-
 // 创建标签
-export function createLable (labelInfo) {
+export function createLable (labelInfo, isDefault) {
   return new Promise((resolve, reject) => {
     currentUser().then((res) => {
       let userId = res.objectId
@@ -44,7 +23,6 @@ export function createLable (labelInfo) {
       label.equalTo('userId', '==', userId)
       label.equalTo('labelInfo', '==', labelInfo)
       label.find().then(res => {
-        console.log('resresresres', res)
         if (!res.length) {
           label.set('userId', userId)
           label.set('labelInfo', labelInfo)
@@ -54,7 +32,7 @@ export function createLable (labelInfo) {
           }).catch(err => {
             reject(err)
           })
-        } else {
+        } else if (!isDefault) {
           reject('该分类已存在')
         }
       }).catch((err) => {
@@ -138,10 +116,11 @@ export function create (params) {
 export function findCards (currentPage = 1, size = 10) {
   return new Promise((resolve, reject) => {
     const query = Bmob.Query('card')
+    query.order('-createdAt')
     query.limit(size)
     query.skip(size * (currentPage - 1))
     query.find().then((res) => {
-      console.log('bmob_findCards===>', res.reverse())      
+      console.log('bmob_findCards===>', res)      
       resolve(res)
     }).catch((err) => {
       reject(err)
@@ -156,6 +135,7 @@ export function findCollectCards(currentPage = 1, size = 10) {
       let userId = res.objectId
       const collect = Bmob.Query('collect')
       collect.equalTo('userId', '==', userId)
+      collect.order('-createdAt')   
       collect.limit(size)
       collect.skip(size * (currentPage - 1))
       collect.find().then((res) => {
@@ -207,6 +187,7 @@ export function getUserLabelCard(userId, labelInfo = '默认', currentPage = 1, 
       }
       const card = Bmob.Query('card')
       card.equalTo('labelId', '==', labelId)
+      card.order('-createdAt')
       card.limit(size)
       card.skip(size * (currentPage - 1))
       card.find().then((result) => {
@@ -223,3 +204,34 @@ export function getUserLabelCard(userId, labelInfo = '默认', currentPage = 1, 
     })
   })
 }
+
+// 收藏某卡片
+export function createCollect (cardId) {
+  return new Promise((resolve, reject) => {
+    currentUser().then((res) => {
+      const collect = Bmob.Query('collect')
+      collect.equalTo('userId', '==', res.objectId)
+      collect.equalTo('cardId', '==', cardId)
+      collect.find().then((res) => {
+        // 如果不存在，就创建
+        if (!res.length) {
+          collect.set('userId', res.objectId)
+          collect.set('cardId', cardId)
+          collect.save().then((res) => {
+            console.log('bmob_createCollect===>', res)
+            resolve(res)
+          }).catch(err => {
+            reject(err)
+          })
+        } else {
+          reject('')
+        }
+      }).catch((err) => {
+        reject(err)
+      })
+    }).catch((err) => {
+      reject(err)
+    })
+  })
+}
+

@@ -57,13 +57,20 @@ export default {
         success: function (res) {
           // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
           _this.filePath = res.tempFilePaths
-          
         }
       })
     },
     uploadImg () {
       let file = this.filePath[0]
+      if (!file) {
+        wx.showToast({
+          title: '请上传图片',
+          icon: 'none'
+        })
+        return
+      }
       let userId = this.userInfo.objectId
+      wx.showLoading()
       uploadFile(file, userId).then((res) => {
         console.log(res)
         this.createPicture(JSON.parse(res[0]).url)
@@ -87,6 +94,7 @@ export default {
         fontClass: this.fontClass
       }
       create(params).then((res) => {
+        this.clearAll()
         wx.showToast({
           title: '创建成功',
           icon: 'none'
@@ -97,6 +105,21 @@ export default {
           title: '创建失败',
           icon: 'none'
         })
+      })
+    },
+    clearAll (){
+      this.filePath = ''
+      this.picClass = 'default'
+      this.fontClass = 'vertical-left'
+      store.commit('storeMakePictureInfo', {
+        content: '',
+        author: '',
+        labelId: '',
+        privacy: false
+      })
+      store.commit('storeCreatedCardSuccess', true)
+      wx.switchTab({
+        url: '../index/main'
       })
     },
     changeMode (index, type) {
@@ -143,7 +166,6 @@ export default {
     emitConfirm () {
       // 先上传图片，然后保存数据库
       this.uploadImg()
-      wx.showLoading()
     }
   },
   components: {

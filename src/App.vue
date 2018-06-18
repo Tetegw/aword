@@ -1,5 +1,5 @@
 <script>
-import { auth, currentUser, createCurUserDefaultLabel } from '@/bmob.js'
+import { auth, currentUser, createLable } from '@/bmob.js'
 import store from '@/store.js'
 
 export default {
@@ -32,9 +32,8 @@ export default {
         }
       })
     },
-    createDefaultLabel (userId) {
-      console.log('userIduserIduserIduserIduserId', userId)
-      createCurUserDefaultLabel(userId).then((res) => {
+    createDefaultLabel () {
+      createLable('默认', true).then((res) => {
         console.log('创建默认label成功', res)
       }).catch((err) => {
         console.log('创建默认label失败', err)

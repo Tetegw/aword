@@ -47,6 +47,19 @@ export default {
   onShow () {
     this.getLabels()
   },
+  computed: {
+    createdCardSuccess () {
+      return store.state.createdCardSuccess
+    }
+  },
+  watch: {
+    createdCardSuccess(newVal) {
+      console.log('创建成功监听到了。。。', newVal)
+      if (newVal) {
+        this.clearAll()
+      }
+    }
+  },
   methods: {
     getLabels () {
       wx.showLoading()
@@ -133,6 +146,13 @@ export default {
       wx.navigateTo({
         url: '../editPicture/main'
       })
+    },
+    clearAll () {
+      this.labelIndex = 0
+      this.contentInput = ''
+      this.authorInput = ''
+      this.privacy = false
+      store.commit('storeCreatedCardSuccess', false)
     }
   },
   components: {
