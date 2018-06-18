@@ -1,5 +1,5 @@
 <script>
-import { auth, currentUser, createLable } from '@/bmob.js'
+import { auth, createLable } from '@/bmob.js'
 import store from '@/store.js'
 
 export default {

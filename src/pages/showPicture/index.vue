@@ -32,7 +32,7 @@ export default {
     showActionSheet () {
       let _this = this
       wx.showActionSheet({
-        itemList: ['作者', '收藏', '转发', '复制文字'],
+        itemList: ['作者', '收藏', '复制文字', '删除'],
         success (res) {
           switch (res.tapIndex) {
             case 0:

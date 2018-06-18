@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { getUserLabels, currentUser, createLable } from '@/bmob.js'
+import { getUserLabels, createLable } from '@/bmob.js'
 import Labels from '@/components/labels.vue'
 import store from '@/store.js'
 
@@ -48,6 +48,9 @@ export default {
     this.getLabels()
   },
   computed: {
+    userInfo () {
+      return store.state.userInfo
+    },
     createdCardSuccess () {
       return store.state.createdCardSuccess
     }
@@ -62,17 +65,10 @@ export default {
   methods: {
     getLabels () {
       wx.showLoading()
-      currentUser().then((res) => {
-        let userId = res.objectId
-        getUserLabels(userId).then((res) => {
-          wx.hideLoading()
-          this.labelList = res
-        }).catch((err) => {
-          wx.showToast({
-            title: '获取栏目失败',
-            icon: 'none'
-          })
-        })
+      let userId = this.userInfo.objectId
+      getUserLabels(userId).then((res) => {
+        wx.hideLoading()
+        this.labelList = res
       }).catch((err) => {
         wx.showToast({
           title: '获取栏目失败',
@@ -98,19 +94,14 @@ export default {
       this.InputDisabled = false
       wx.showLoading()
       createLable(payload).then((res) => {
-        currentUser().then((res) => {
-          // 创建了，刷新label
-          let userId = res.objectId
-          getUserLabels(userId).then((res) => {
-            wx.hideLoading()
-            this.labelList = res
-          }).catch((err) => {
-            wx.hideLoading()
-            console.log('获取用户列表失败', err)
-          })
+        // 创建了，刷新label
+        let userId = this.userInfo.objectId
+        getUserLabels(userId).then((res) => {
+          wx.hideLoading()
+          this.labelList = res
         }).catch((err) => {
           wx.hideLoading()
-          console.log('获取本地用户失败', err)
+          console.log('获取用户列表失败', err)
         })
       }).catch((err) => {
         let title = err === '该分类已存在' ? err : '创建失败'
