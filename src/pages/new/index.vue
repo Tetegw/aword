@@ -54,7 +54,6 @@ export default {
   },
   watch: {
     createdCardSuccess(newVal) {
-      console.log('创建成功监听到了。。。', newVal)
       if (newVal) {
         this.clearAll()
       }

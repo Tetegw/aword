@@ -209,13 +209,14 @@ export function getUserLabelCard(userId, labelInfo = '默认', currentPage = 1, 
 export function createCollect (cardId) {
   return new Promise((resolve, reject) => {
     currentUser().then((res) => {
+      let userId = res.objectId
       const collect = Bmob.Query('collect')
-      collect.equalTo('userId', '==', res.objectId)
+      collect.equalTo('userId', '==', userId)
       collect.equalTo('cardId', '==', cardId)
       collect.find().then((res) => {
         // 如果不存在，就创建
         if (!res.length) {
-          collect.set('userId', res.objectId)
+          collect.set('userId', userId)
           collect.set('cardId', cardId)
           collect.save().then((res) => {
             console.log('bmob_createCollect===>', res)
@@ -224,7 +225,7 @@ export function createCollect (cardId) {
             reject(err)
           })
         } else {
-          reject('')
+          reject('不能重复收藏')
         }
       }).catch((err) => {
         reject(err)

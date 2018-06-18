@@ -20,6 +20,7 @@ export default {
           auth().then((res) => {
             wx.hideLoading()
             console.log('第三方登录成功', res)
+            store.commit('storeUserInfo', res)
             // 为其创建一个默认的标签，如果存在不操作
             _this.createDefaultLabel(res.objectId)
           }).catch((err) => {

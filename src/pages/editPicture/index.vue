@@ -119,7 +119,7 @@ export default {
       })
       store.commit('storeCreatedCardSuccess', true)
       wx.switchTab({
-        url: '../index/main'
+        url: '../profile/main'
       })
     },
     changeMode (index, type) {
