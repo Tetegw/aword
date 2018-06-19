@@ -16,7 +16,8 @@
 
 <script>
 import Picture from '@/components/picture.vue'
-import { findCards } from '@/bmob.js'
+import { findCards, auth, createLable } from '@/bmob.js'
+import store from '@/store.js'
 
 export default {
   data () {
@@ -31,13 +32,48 @@ export default {
   },
   methods: {
     findAllCards () {
+      wx.showLoading()
       findCards().then((res) => {
+        wx.hideLoading()
         this.pictureList = res
+        this.login()
       }).catch((err) => {
         wx.showToast({
           title: '查询失败',
           icon: 'none'
         })
+      })
+    },
+    login () {
+      console.log('login...')
+      let _this = this
+      wx.login({
+        success (res) {
+          console.log('微信登录成功', res)
+          auth().then((res) => {
+            if (!res) {
+              _this.login()
+              return
+            }
+            console.log('第三方登录成功', res)
+            store.commit('storeUserInfo', res)
+            // 为其创建一个默认的标签，如果存在不操作
+            _this.createDefaultLabel(res.objectId)
+          }).catch((err) => {
+            console.log('第三方登录失败', res)
+            wx.showToast({
+              title: '登录失败',
+              icon: none
+            })
+          })
+        }
+      })
+    },
+    createDefaultLabel () {
+      createLable('默认', true).then((res) => {
+        console.log('创建默认label成功', res)
+      }).catch((err) => {
+        console.log('创建默认label失败', err)
       })
     },
     selectPicture (item) {

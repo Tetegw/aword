@@ -11,28 +11,43 @@
 </template>
 
 <script>
-import { createCollect } from '@/bmob.js'
+import { createCollect, currentUser, deleteCard } from '@/bmob.js'
 import Picture from '@/components/picture.vue'
 
 export default {
   data () {
     return {
       PictureInfo: {},
-      showMenu: true
+      showMenu: true,
+      ActionSheetList: []
     }
   },
   onLoad: function(option){
     this.showMenu = true
     this.PictureInfo = option
+    this.isAuthor()
   },
   methods: {
+    isAuthor () {
+      currentUser().then((res) => {
+        let currentUserId = res.objectId
+        let pictureUserId = this.PictureInfo.userId
+        if (currentUserId === pictureUserId) {
+          this.ActionSheetList = ['作者', '收藏', '复制文字', '删除']
+        } else {
+          this.ActionSheetList = ['作者', '收藏', '复制文字']
+        }
+      }).catch((err) => {
+        console.log('获取当前用户失败')
+      })
+    },
     toggleMenu () {
       this.showMenu = !this.showMenu
     },
     showActionSheet () {
       let _this = this
       wx.showActionSheet({
-        itemList: ['作者', '收藏', '复制文字', '删除'],
+        itemList: this.ActionSheetList,
         success (res) {
           switch (res.tapIndex) {
             case 0:
@@ -42,11 +57,11 @@ export default {
               _this.collect()
               break;
             case 2:
-             console.log('转发')
-              break;
-            case 3:
               _this.copyText()
               break;
+            case 3:
+             _this.deleteOneCard()
+             break;
           }
         },
         fail (err) {
@@ -67,7 +82,6 @@ export default {
           icon: 'none'
         })
       })
-      
     },
     copyText () {
       wx.setClipboardData({
@@ -78,6 +92,33 @@ export default {
             icon: 'none'
           })
         }
+      })
+    },
+    deleteOneCard () {
+      let _this = this
+      wx.showModal({
+        content: '确定要删除吗?',
+        confirmColor: '#26a69a',
+        success (res) {
+          if (res.confirm) {
+            _this.deleteCardHandle()
+          }
+        }
+      })
+    },
+    deleteCardHandle () {
+      let objectId = this.PictureInfo.objectId
+      deleteCard(objectId).then((res) => {
+        wx.showToast({
+          title: '删除成功',
+          icon: 'none'
+        })
+        wx.navigateBack()
+      }).catch((err) => {
+        wx.showToast({
+          title: '删除失败',
+          icon: 'none'
+        })
       })
     }
   },

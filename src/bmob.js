@@ -34,6 +34,8 @@ export function createLable (labelInfo, isDefault) {
           })
         } else if (!isDefault) {
           reject('该分类已存在')
+        } else {
+          reject()
         }
       }).catch((err) => {
         reject(err)
@@ -236,3 +238,15 @@ export function createCollect (cardId) {
   })
 }
 
+// 删除某个card
+export function deleteCard (objectId) {
+  return new Promise((resolve, reject) => {
+    const card = Bmob.Query('card')
+    card.destroy(objectId).then((res) => {
+      console.log('bmob_deleteCard===>', res)
+      resolve(res)
+    }).catch((err) => {
+      reject(err)
+    })
+  })
+}

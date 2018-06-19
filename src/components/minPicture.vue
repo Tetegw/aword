@@ -178,7 +178,7 @@ export default {
       }
     }
     &.vertical-right{
-      height: 38px;
+      height: 75px;
       writing-mode: vertical-rl;
       letter-spacing:1px;  /*px*/ 
       i{
