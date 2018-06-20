@@ -3,7 +3,7 @@ import { ApplicationID, RESTAPIKey } from 'static/bmob/bmobKey.js'
 Bmob.initialize(ApplicationID, RESTAPIKey)
 
 // 登录
-export function auth() {
+export function auth () {
   return new Promise((resolve, reject) => {
     Bmob.User.auth().then((res) => {
       console.log('bmob_auth====>', res)
@@ -122,7 +122,7 @@ export function findCards (currentPage = 1, size = 10) {
     query.limit(size)
     query.skip(size * (currentPage - 1))
     query.find().then((res) => {
-      console.log('bmob_findCards===>', res)      
+      console.log('bmob_findCards===>', res)
       resolve(res)
     }).catch((err) => {
       reject(err)
@@ -131,13 +131,13 @@ export function findCards (currentPage = 1, size = 10) {
 }
 
 // 获取当前用户的收藏
-export function findCollectCards(currentPage = 1, size = 10) {
+export function findCollectCards (currentPage = 1, size = 10) {
   return new Promise((resolve, reject) => {
     currentUser().then((res) => {
       let userId = res.objectId
       const collect = Bmob.Query('collect')
       collect.equalTo('userId', '==', userId)
-      collect.order('-createdAt')   
+      collect.order('-createdAt')
       collect.limit(size)
       collect.skip(size * (currentPage - 1))
       collect.find().then((res) => {
@@ -163,7 +163,7 @@ export function findCollectCards(currentPage = 1, size = 10) {
 }
 
 // 获取某用户的所有分类
-export function getUserLabels(userId) {
+export function getUserLabels (userId) {
   return new Promise((resolve, reject) => {
     const label = Bmob.Query('label')
     label.equalTo('userId', '==', userId)
@@ -177,7 +177,7 @@ export function getUserLabels(userId) {
 }
 
 // 获取某用户某栏目的的卡片数据
-export function getUserLabelCard(userId, labelInfo = '默认', currentPage = 1, size = 10) {
+export function getUserLabelCard (userId, labelInfo = '默认', currentPage = 1, size = 10) {
   return new Promise((resolve, reject) => {
     getUserLabels(userId).then((res) => {
       let labelId = ''

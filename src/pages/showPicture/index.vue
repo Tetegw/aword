@@ -1,10 +1,7 @@
 <template>
   <div class="show-picture-wrapper">
     <div class="v-Picture-wrapper" @click="toggleMenu">
-      <v-Picture
-        :PictureInfo="PictureInfo"
-        :authorBottom="true"
-      ></v-Picture>
+      <v-Picture :PictureInfo="PictureInfo" :authorBottom="true"></v-Picture>
     </div>
     <div class="more" :class="{'active': showMenu}" @click="showActionSheet">···</div>
   </div>
@@ -22,7 +19,7 @@ export default {
       ActionSheetList: []
     }
   },
-  onLoad: function(option){
+  onLoad: function (option) {
     this.showMenu = true
     this.PictureInfo = option
     this.isAuthor()
@@ -60,8 +57,8 @@ export default {
               _this.copyText()
               break;
             case 3:
-             _this.deleteOneCard()
-             break;
+              _this.deleteOneCard()
+              break;
           }
         },
         fail (err) {
@@ -86,7 +83,7 @@ export default {
     copyText () {
       wx.setClipboardData({
         data: this.PictureInfo.content,
-        success: function(res) {
+        success: function (res) {
           wx.showToast({
             title: '复制成功',
             icon: 'none'
@@ -129,20 +126,20 @@ export default {
 </script>
 
 <style scoped lang="less">
-.show-picture-wrapper{
+.show-picture-wrapper {
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  .v-Picture-wrapper{
+  .v-Picture-wrapper {
     position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
   }
-  .more{
+  .more {
     position: fixed;
     bottom: 0;
     right: 5px;
@@ -154,10 +151,9 @@ export default {
     font-size: 20px;
     transition: all 0.3s;
     transform: translate3d(0, 50px, 0);
-    &.active{
+    &.active {
       transform: translate3d(0, 0, 0);
     }
   }
 }
-
 </style>

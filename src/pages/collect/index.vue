@@ -1,8 +1,6 @@
 <template>
   <div class="collect-wrapper">
-    <v-Works
-      :currentCardList="collectList"
-    ></v-Works>
+    <v-Works :currentCardList="collectList"></v-Works>
   </div>
 </template>
 
@@ -40,5 +38,4 @@ export default {
 </script>
 
 <style>
-
 </style>

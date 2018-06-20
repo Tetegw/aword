@@ -4,9 +4,7 @@
       <block v-for="(item, index) in pictureList" :key="index">
         <swiper-item @click="selectPicture(item)">
           <div class="swiper-item">
-            <v-Picture
-              :PictureInfo="item"
-            ></v-Picture>
+            <v-Picture :PictureInfo="item"></v-Picture>
           </div>
         </swiper-item>
       </block>
@@ -25,7 +23,7 @@ export default {
       pictureList: []
     }
   },
-  onShareAppMessage(){
+  onShareAppMessage () {
   },
   onShow () {
     this.findAllCards()
@@ -83,7 +81,7 @@ export default {
         url: url
       })
     },
-    stringifyObject(item){
+    stringifyObject (item) {
       let res = ''
       for (let key in item) {
         if (item.hasOwnProperty(key)) {
@@ -101,16 +99,16 @@ export default {
 </script>
 
 <style scoped lang="less">
-.index-wrapper{
+.index-wrapper {
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
   background: #f2f2f2;
-  .swiper{
+  .swiper {
     height: 100%;
-    .swiper-item{
+    .swiper-item {
       position: absolute;
       top: 10px;
       bottom: 10px;

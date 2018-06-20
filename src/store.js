@@ -24,10 +24,10 @@ const store = new Vuex.Store({
     storeUserInfo (state, payload) {
       state.userInfo = payload
     },
-    storeHasUserInfo(state, payload) {
+    storeHasUserInfo (state, payload) {
       state.hasUserInfo = payload
     },
-    storeMakePictureInfo(state, payload) {
+    storeMakePictureInfo (state, payload) {
       state.makePictureInfo = Object.assign({}, state.makePictureInfo, payload)
       console.log('state.makePictureInfo', state.makePictureInfo)
     },
@@ -36,7 +36,7 @@ const store = new Vuex.Store({
     },
     storeCardObject (state, payload) {
       let labelInfo = `card_${payload.labelInfo}`
-      state.cardObject = Object.assign({}, state.cardObject, { [labelInfo]: payload.card})
+      state.cardObject = Object.assign({}, state.cardObject, { [labelInfo]: payload.card })
     },
     storeCreatedCardSuccess (state, payload) {
       state.createdCardSuccess = payload

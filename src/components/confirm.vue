@@ -1,5 +1,5 @@
 <template>
-  <div class="confirm-com-wrapper" v-show="show" >
+  <div class="confirm-com-wrapper" v-show="show">
     <div class="mask" @click="hideModel" @touchmove.stop.prevent></div>
     <div class="confirm-wrapper" @touchmove.stop.prevent>
       <div class="title" v-show="title">{{title}}</div>
@@ -21,7 +21,7 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       show: this.showModel,
       cancelTouchActive: false,
@@ -29,7 +29,7 @@ export default {
       inputLabel: ''
     }
   },
-  props:{
+  props: {
     showModel: {
       type: Boolean,
       default: false
@@ -51,18 +51,18 @@ export default {
       default: '取消'
     }
   },
-  watch:{
-    showModel(newVal) {
+  watch: {
+    showModel (newVal) {
       this.show = newVal
       this.$emit('emitShowModel')
     }
   },
-  methods:{
-    hideModel() {
+  methods: {
+    hideModel () {
       this.$emit('emitHideModel')
       this.inputLabel = ''
     },
-    emitConfirm() {
+    emitConfirm () {
       let inputLabel = this.inputLabel.trim()
       if (!inputLabel && !this.content) {
         wx.showToast({
@@ -79,41 +79,41 @@ export default {
 </script>
 
 <style scoped lang="less">
-.confirm-com-wrapper{
+.confirm-com-wrapper {
   position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  z-index:8;
-  .mask{
+  z-index: 8;
+  .mask {
     position: absolute;
     z-index: 9;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(0, 0, 0, .2);
+    background: rgba(0, 0, 0, 0.2);
   }
-  .confirm-wrapper{
+  .confirm-wrapper {
     position: absolute;
     z-index: 10;
     top: 40%;
     left: 50%;
     padding-top: 14px;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     background: #fff;
     width: 70%;
     font-size: 14px;
-    .title{
+    .title {
       line-height: 20px;
       text-align: center;
       padding: 5px 0;
     }
-    .content{
+    .content {
       padding: 22px 0;
       text-align: center;
-      .input-label{
+      .input-label {
         display: inline-block;
         text-align: left;
         padding-left: 10px;
@@ -123,25 +123,25 @@ export default {
         width: 70%;
       }
     }
-    .footer{
+    .footer {
       display: flex;
       justify-content: space-around;
       border-top: 1px solid #eee; /*px*/
-      .btn{
-        flex:1;
+      .btn {
+        flex: 1;
         padding: 10px 0;
         text-align: center;
-        &.touch-active{
+        &.touch-active {
           background: #f1f1f1;
         }
-        span{
+        span {
           border-right: 1px solid #eee; /*px*/
           text-align: center;
           display: block;
           line-height: 25px;
         }
-        &:last-child{
-          span{
+        &:last-child {
+          span {
             border-right: 0;
           }
         }

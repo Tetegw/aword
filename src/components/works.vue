@@ -1,13 +1,11 @@
 <template>
   <div class="works-com-wrapper">
-      <ul class="works-list" v-show="currentCardList.length">
-        <li v-for="(item, index) in currentCardList" :key="index" @click="selectPicture(item)  " v-if="!item.privacy || userInfo.objectId === item.userId">
-          <v-MinPicture
-            :PictureInfo="item"
-          ></v-MinPicture>
-        </li>
-      </ul>
-      <div class="empty" v-show="!currentCardList.length">- 空空如也 -</div>
+    <ul class="works-list" v-show="currentCardList.length">
+      <li v-for="(item, index) in currentCardList" :key="index" @click="selectPicture(item)  " v-if="!item.privacy || userInfo.objectId === item.userId">
+        <v-MinPicture :PictureInfo="item"></v-MinPicture>
+      </li>
+    </ul>
+    <div class="empty" v-show="!currentCardList.length">- 空空如也 -</div>
   </div>
 </template>
 
@@ -16,7 +14,7 @@ import MinPicture from '@/components/minPicture.vue'
 import store from '@/store.js'
 
 export default {
-  props:{
+  props: {
     currentCardList: {
       type: Array,
       default () {
@@ -37,7 +35,7 @@ export default {
         url: url
       })
     },
-    stringifyObject(item){
+    stringifyObject (item) {
       let res = ''
       for (let key in item) {
         if (item.hasOwnProperty(key)) {
@@ -55,12 +53,12 @@ export default {
 </script>
 
 <style scoped lang="less">
-.works-com-wrapper{
+.works-com-wrapper {
   padding: 20px;
-  ul.works-list{
+  ul.works-list {
     display: flex;
     flex-wrap: wrap;
-    li{
+    li {
       width: 40%;
       margin: 0 5%;
       background: #fff;
@@ -69,18 +67,18 @@ export default {
       text-align: center;
       position: relative;
       &::before {
-        content: '';
+        content: "";
         padding-top: 150%;
         float: left;
       }
       &::after {
-        content: '';
+        content: "";
         display: block;
         clear: both;
       }
     }
   }
-  .empty{
+  .empty {
     text-align: center;
     font-size: 14px;
     color: #aaa;
