@@ -130,6 +130,20 @@ export function findCards (currentPage = 1, size = 10) {
   })
 }
 
+// 获取某个卡片信息
+export function findOneCards (objectId) {
+  return new Promise((resolve, reject) => {
+    const card = Bmob.Query('card')
+    card.equalTo('objectId', '==', objectId)
+    card.find().then((res) => {
+      console.log('bmob_findOneCards===>', res[0])
+      resolve(res[0])
+    }).catch((err) => {
+      reject(err)
+    })
+  })
+}
+
 // 获取当前用户的收藏
 export function findCollectCards (currentPage = 1, size = 10) {
   return new Promise((resolve, reject) => {

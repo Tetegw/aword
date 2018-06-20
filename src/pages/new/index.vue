@@ -58,10 +58,8 @@ export default {
   },
   methods: {
     getLabels () {
-      wx.showLoading()
       let userId = this.userInfo.objectId
       getUserLabels(userId).then((res) => {
-        wx.hideLoading()
         this.labelList = res
       }).catch((err) => {
         wx.showToast({

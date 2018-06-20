@@ -75,21 +75,10 @@ export default {
       })
     },
     selectPicture (item) {
-      let res = this.stringifyObject(item).slice(1)
-      let url = `../showPicture/main?${res}`
+      let url = `../showPicture/main?id=${item.objectId}`
       wx.navigateTo({
         url: url
       })
-    },
-    stringifyObject (item) {
-      let res = ''
-      for (let key in item) {
-        if (item.hasOwnProperty(key)) {
-          let value = item[key]
-          res += `&${key}=${value}`
-        }
-      }
-      return res
     }
   },
   components: {

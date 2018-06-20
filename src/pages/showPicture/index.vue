@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { createCollect, currentUser, deleteCard } from '@/bmob.js'
+import { createCollect, currentUser, deleteCard, findOneCards } from '@/bmob.js'
 import Picture from '@/components/picture.vue'
 
 export default {
@@ -19,14 +19,30 @@ export default {
       ActionSheetList: []
     }
   },
-  onLoad: function (option) {
-    this.showMenu = true
-    this.PictureInfo = option
-    this.isAuthor()
+  onLoad (option) {
+    this.getPictureInfo(option.id)
+  },
+  onUnload () {
+    this.PictureInfo = {}
+  },
+  onShareAppMessage () {
   },
   methods: {
+    getPictureInfo (objectId) {
+      wx.showLoading()
+      findOneCards(objectId).then((res) => {
+        this.PictureInfo = res
+        this.isAuthor()
+      }).catch((err) => {
+        wx.showToast({
+          title: '获取失败',
+          icon: 'none'
+        })
+      })
+    },
     isAuthor () {
       currentUser().then((res) => {
+        wx.hideLoading()
         let currentUserId = res.objectId
         let pictureUserId = this.PictureInfo.userId
         if (currentUserId === pictureUserId) {
@@ -35,6 +51,7 @@ export default {
           this.ActionSheetList = ['作者', '收藏', '复制文字']
         }
       }).catch((err) => {
+        wx.hideLoading()
         console.log('获取当前用户失败')
       })
     },
@@ -117,6 +134,16 @@ export default {
           icon: 'none'
         })
       })
+    },
+    stringifyObject (item) {
+      let res = ''
+      for (let key in item) {
+        if (item.hasOwnProperty(key)) {
+          let value = item[key]
+          res += `&${key}=${value}`
+        }
+      }
+      return res
     }
   },
   components: {
