@@ -118,6 +118,7 @@ export function create (params) {
 export function findCards (currentPage = 1, size = 10) {
   return new Promise((resolve, reject) => {
     const query = Bmob.Query('card')
+    query.equalTo('privacy', '!=', true)
     query.order('-createdAt')
     query.limit(size)
     query.skip(size * (currentPage - 1))
@@ -170,6 +171,22 @@ export function findCollectCards (currentPage = 1, size = 10) {
       }).catch((err) => {
         reject(err)
       })
+    }).catch((err) => {
+      reject(err)
+    })
+  })
+}
+
+
+// 获取当前用户的收藏
+export function findOneCollect(userId, cardId) {
+  return new Promise((resolve, reject) => {
+    const collect = Bmob.Query('collect')
+    collect.equalTo('userId', '==', userId)
+    collect.equalTo('cardId', '==', cardId)
+    collect.find().then((res) => {
+      console.log('bmob_findOneCollect===>', res)
+      resolve(res)
     }).catch((err) => {
       reject(err)
     })
@@ -243,6 +260,23 @@ export function createCollect (cardId) {
         } else {
           reject('不能重复收藏')
         }
+      }).catch((err) => {
+        reject(err)
+      })
+    }).catch((err) => {
+      reject(err)
+    })
+  })
+}
+
+// 取消收藏某卡片
+export function deleteCollect(objectId) {
+  return new Promise((resolve, reject) => {
+    currentUser().then((res) => {
+      const collect = Bmob.Query('collect')
+      collect.destroy(objectId).then((res) => {
+        console.log('bmob_deleteCollect===>', res)
+        resolve(res)
       }).catch((err) => {
         reject(err)
       })

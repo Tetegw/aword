@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { createCollect, currentUser, deleteCard, findOneCards } from '@/bmob.js'
+import { createCollect, currentUser, deleteCard, findOneCards, findOneCollect, deleteCollect } from '@/bmob.js'
 import Picture from '@/components/picture.vue'
 
 export default {
@@ -16,7 +16,8 @@ export default {
     return {
       PictureInfo: {},
       showMenu: true,
-      ActionSheetList: []
+      ActionSheetList: [],
+      collectObjectId: ''
     }
   },
   onLoad (option) {
@@ -45,10 +46,27 @@ export default {
         wx.hideLoading()
         let currentUserId = res.objectId
         let pictureUserId = this.PictureInfo.userId
+        let pictureCardId = this.PictureInfo.objectId
         if (currentUserId === pictureUserId) {
-          this.ActionSheetList = ['作者', '收藏', '复制文字', '删除']
+          this.ActionSheetList = ['收藏', '复制文字', '删除']
+          findOneCollect(currentUserId, pictureCardId).then((res) => {
+            if (res.length) {
+              this.ActionSheetList = ['取消收藏', '复制文字', '删除']
+              this.collectObjectId = res[0].objectId
+            }
+          }).catch((err) => {
+            console.log('查询收藏失败')
+          })
         } else {
           this.ActionSheetList = ['作者', '收藏', '复制文字']
+          findOneCollect(currentUserId, pictureCardId).then((res) => {
+            if (res.length) {
+              this.ActionSheetList = ['作者', '取消收藏', '复制文字']
+              this.collectObjectId = res[0].objectId            
+            }
+          }).catch((err) => {
+            console.log('查询收藏失败')
+          })
         }
       }).catch((err) => {
         wx.hideLoading()
@@ -63,17 +81,20 @@ export default {
       wx.showActionSheet({
         itemList: this.ActionSheetList,
         success (res) {
-          switch (res.tapIndex) {
-            case 0:
+          switch (_this.ActionSheetList[res.tapIndex]) {
+            case '作者':
               console.log('作者页')
               break;
-            case 1:
+            case '收藏':
               _this.collect()
               break;
-            case 2:
+            case '取消收藏':
+              _this.cancelCollect()
+              break;
+            case '复制文字':
               _this.copyText()
               break;
-            case 3:
+            case '删除':
               _this.deleteOneCard()
               break;
           }
@@ -86,6 +107,7 @@ export default {
     collect () {
       let cardId = this.PictureInfo.objectId
       createCollect(cardId).then((res) => {
+        this.isAuthor()
         wx.showToast({
           title: '收藏成功',
           icon: 'none'
@@ -93,6 +115,21 @@ export default {
       }).catch((err) => {
         wx.showToast({
           title: '收藏失败',
+          icon: 'none'
+        })
+      })
+    },
+    cancelCollect () {
+      wx.showLoading()
+      deleteCollect(this.collectObjectId).then((res) => {
+        this.isAuthor()
+        wx.showToast({
+          title: '取消成功',
+          icon: 'none'
+        })
+      }).catch((err) => {
+        wx.showToast({
+          title: '取消失败',
           icon: 'none'
         })
       })
