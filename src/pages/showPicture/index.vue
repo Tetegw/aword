@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { createCollect, currentUser, deleteCard, findOneCards, findOneCollect, deleteCollect } from '@/bmob.js'
+import { createCollect, currentUser, deleteCard, findOneCards, findOneCollect, deleteCollect, setCardPrivacy } from '@/bmob.js'
 import Picture from '@/components/picture.vue'
 
 export default {
@@ -41,18 +41,28 @@ export default {
         })
       })
     },
-    isAuthor () {
+    isAuthor (_isPrivacy) {
       currentUser().then((res) => {
         wx.hideLoading()
         let currentUserId = res.objectId
         let pictureUserId = this.PictureInfo.userId
         let pictureCardId = this.PictureInfo.objectId
+        let isPrivacy = _isPrivacy !== undefined ? _isPrivacy : this.PictureInfo.privacy
+        console.log('isPrivacy', isPrivacy)
         if (currentUserId === pictureUserId) {
-          this.ActionSheetList = ['收藏', '复制文字', '删除']
+          this.ActionSheetList = ['收藏', '复制文字', '设为隐私',  '删除']
           findOneCollect(currentUserId, pictureCardId).then((res) => {
             if (res.length) {
-              this.ActionSheetList = ['取消收藏', '复制文字', '删除']
+              this.ActionSheetList = ['取消收藏', '复制文字', '设为隐私', '删除']
+              if (isPrivacy) {
+                this.ActionSheetList = ['取消收藏', '复制文字', '设为公开', '删除']
+              }
               this.collectObjectId = res[0].objectId
+            } else {
+              this.ActionSheetList = ['收藏', '复制文字', '设为隐私', '删除']
+              if (isPrivacy) {
+                this.ActionSheetList = ['收藏', '复制文字', '设为公开', '删除']
+              }
             }
           }).catch((err) => {
             console.log('查询收藏失败')
@@ -94,6 +104,12 @@ export default {
             case '复制文字':
               _this.copyText()
               break;
+            case '设为隐私':
+              _this.setPrivacy(true)
+              break;
+            case '设为公开':
+              _this.setPrivacy(false)
+              break;
             case '删除':
               _this.deleteOneCard()
               break;
@@ -132,6 +148,21 @@ export default {
           title: '取消失败',
           icon: 'none'
         })
+      })
+    },
+    setPrivacy (flag) {
+      let cardId = this.PictureInfo.objectId
+      setCardPrivacy(cardId, flag).then((res) => {
+        this.isAuthor(flag)
+        wx.showToast({
+          title: '设置成功',
+          icon: 'none'
+        })
+      }).catch((err) => {
+        wx.showToast({
+          title: '设置失败',
+          icon: 'none'
+        })      
       })
     },
     copyText () {

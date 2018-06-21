@@ -164,6 +164,10 @@ export function findCollectCards (currentPage = 1, size = 10) {
         card.containedIn('objectId', cardIdList)
         card.find().then((res) => {
           console.log('bmob_findCollectCards===>', res)
+          res = res.filter((item) => {
+            return item.privacy === false
+          })
+          console.log('bmob_findCollectCards===>', res)          
           resolve(res)
         }).catch((err) => {
           reject(err)
@@ -294,6 +298,26 @@ export function deleteCard (objectId) {
       console.log('bmob_deleteCard===>', res)
       resolve(res)
     }).catch((err) => {
+      reject(err)
+    })
+  })
+}
+
+
+// 设置隐私或公开
+export function setCardPrivacy(objectId, flag) {
+  return new Promise((resolve, reject) => {
+    console.log('objectId', objectId)
+    const card = Bmob.Query('card')
+    card.get(objectId).then((res) => {
+      res.set('privacy', flag)
+      res.save().then((res) => {
+        console.log('bmob_setCardPrivacy===>', res)
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    }).catch(err => {
       reject(err)
     })
   })
