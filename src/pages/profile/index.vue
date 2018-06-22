@@ -103,9 +103,9 @@ export default {
       // console.log('选择了,',index, labelInfo, last)
       this.ChooseItem = labelInfo
       // 如果cardObject[`card_${ChooseItem}`]已存在，不再请求
-      if (this.cardObject[`card_${labelInfo}`]) {
+      /* if (this.cardObject[`card_${labelInfo}`]) {
         return
-      }
+      } */
       this.getSomeCard(this.userInfo.objectId, labelInfo)
     },
     emitConfirm (payload) {
@@ -129,8 +129,8 @@ export default {
       })
     },
     getSomeCard (userId, labelInfo) {
-      console.log('获取labelInfo的数据', labelInfo)
       wx.showLoading()
+      console.log('获取labelInfo的数据', labelInfo)
       getUserLabelCard(userId, labelInfo).then((res) => {
         store.commit('storeLabelList', res.label)
         store.commit('storeCardObject', { labelInfo: labelInfo, card: res.card })
@@ -141,8 +141,7 @@ export default {
           icon: 'none'
         })
       })
-    },
-    // TODO: 下拉加载，调用新方法，storeCardObject的时候拼起来传过去
+    }
   },
   components: {
     'v-Labels': Labels,

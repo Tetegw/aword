@@ -23,6 +23,5 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 
 TODO: 作者页
 TODO: 上拉加载
-TODO: 下拉刷新
 TODO: 删除标签
 

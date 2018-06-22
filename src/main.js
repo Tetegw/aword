@@ -18,15 +18,15 @@ export default {
       'pages/showPicture/main',
     ],
     window: {
-      backgroundTextStyle: 'light',
+      backgroundTextStyle: 'dark',
       backgroundColorTop: '#fff',
       navigationBarBackgroundColor: '#fff',
       navigationBarTitleText: 'WeChat',
-      navigationBarTextStyle: 'black'
+      navigationBarTextStyle: 'black',
     },
     tabBar: {
       color: '#B1B1BA',
-      selectedColor: '#26a69a',
+      selectedColor: '#444',
       backgroundColor: '#ffffff',
       list: [
         {

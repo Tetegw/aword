@@ -1,6 +1,6 @@
 <template>
   <div class="index-wrapper">
-    <swiper class="swiper">
+    <swiper class="swiper" @animationfinish="animationfinish">
       <block v-for="(item, index) in pictureList" :key="index">
         <swiper-item @click="selectPicture(item)">
           <div class="swiper-item">
@@ -79,6 +79,9 @@ export default {
       wx.navigateTo({
         url: url
       })
+    },
+    animationfinish (e) {
+      console.log(e)
     }
   },
   components: {

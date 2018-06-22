@@ -156,7 +156,7 @@ export default {
     top: 265px;
     left: 50%;
     transform: translate(-50%);
-    font-size: 16px; /*px*/
+    font-size: 15px; /*px*/
     line-height: 24px; /*px*/
     &.across-left {
       top: 260px;

@@ -33,6 +33,7 @@ export default {
       wx.showLoading()
       findOneCards(objectId).then((res) => {
         this.PictureInfo = res
+        wx.hideLoading()
         this.isAuthor()
       }).catch((err) => {
         wx.showToast({
@@ -43,14 +44,12 @@ export default {
     },
     isAuthor (_isPrivacy) {
       currentUser().then((res) => {
-        wx.hideLoading()
         let currentUserId = res.objectId
         let pictureUserId = this.PictureInfo.userId
         let pictureCardId = this.PictureInfo.objectId
         let isPrivacy = _isPrivacy !== undefined ? _isPrivacy : this.PictureInfo.privacy
-        console.log('isPrivacy', isPrivacy)
         if (currentUserId === pictureUserId) {
-          this.ActionSheetList = ['收藏', '复制文字', '设为隐私',  '删除']
+          this.ActionSheetList = ['收藏', '复制文字', '设为隐私', '删除']
           findOneCollect(currentUserId, pictureCardId).then((res) => {
             if (res.length) {
               this.ActionSheetList = ['取消收藏', '复制文字', '设为隐私', '删除']
@@ -72,14 +71,13 @@ export default {
           findOneCollect(currentUserId, pictureCardId).then((res) => {
             if (res.length) {
               this.ActionSheetList = ['作者', '取消收藏', '复制文字']
-              this.collectObjectId = res[0].objectId            
+              this.collectObjectId = res[0].objectId
             }
           }).catch((err) => {
             console.log('查询收藏失败')
           })
         }
       }).catch((err) => {
-        wx.hideLoading()
         console.log('获取当前用户失败')
       })
     },
@@ -136,7 +134,6 @@ export default {
       })
     },
     cancelCollect () {
-      wx.showLoading()
       deleteCollect(this.collectObjectId).then((res) => {
         this.isAuthor()
         wx.showToast({
@@ -162,7 +159,7 @@ export default {
         wx.showToast({
           title: '设置失败',
           icon: 'none'
-        })      
+        })
       })
     },
     copyText () {
@@ -180,7 +177,8 @@ export default {
       let _this = this
       wx.showModal({
         content: '确定要删除吗?',
-        confirmColor: '#26a69a',
+        cancelColor: '#999',
+        confirmColor: '#444',
         success (res) {
           if (res.confirm) {
             _this.deleteCardHandle()
@@ -248,6 +246,17 @@ export default {
     transform: translate3d(0, 50px, 0);
     &.active {
       transform: translate3d(0, 0, 0);
+    }
+  }
+}
+</style>
+
+
+<style lang="less">
+.show-picture-wrapper {
+  .v-Picture-wrapper {
+    .content {
+      font-size: 16px; /*px*/
     }
   }
 }
