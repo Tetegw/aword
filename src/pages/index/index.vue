@@ -9,7 +9,6 @@
         </swiper-item>
       </block>
     </swiper>
-    <span class="back-first-index" @click="backFirst">首页</span>
   </div>
 </template>
 
@@ -30,6 +29,7 @@ export default {
   onShareAppMessage () {
   },
   onShow () {
+    this.currentIndex = 0   // 重置
     this.findAllCards()
     this.login()
   },
@@ -38,10 +38,16 @@ export default {
       wx.showLoading()
       findCards(currentPage).then((res) => {
         wx.hideLoading()
-        this.pictureList = this.pictureList.concat(res.list)
+        if (currentPage === 1) {
+          this.pictureList = res.list
+        } else {
+          this.pictureList = this.pictureList.concat(res.list)
+        }
         if (res.list.length) {
           this.currentPage = res.currentPage
           this.size = res.size
+        } else {
+          ++this.currentPage
         }
       }).catch((err) => {
         wx.showToast({
@@ -98,9 +104,6 @@ export default {
         let currentPage = this.currentPage
         this.findAllCards(++currentPage)
       }
-    },
-    backFirst () {
-      this.currentIndex = 0
     }
   },
   components: {
@@ -126,16 +129,6 @@ export default {
       left: 10px;
       right: 10px;
     }
-  }
-  .back-first-index {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    font-size: 14px;
-    color: #999;
-    padding: 3px 5px;
-    border-radius: 2px; /*px*/
-    border: 1px solid #999; /*px*/
   }
 }
 </style>
