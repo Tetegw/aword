@@ -1,6 +1,6 @@
 <template>
   <div class="index-wrapper">
-    <swiper class="swiper" @animationfinish="animationfinish">
+    <swiper class="swiper" @animationfinish="swiperChange" :current="currentIndex">
       <block v-for="(item, index) in pictureList" :key="index">
         <swiper-item @click="selectPicture(item)">
           <div class="swiper-item">
@@ -9,6 +9,7 @@
         </swiper-item>
       </block>
     </swiper>
+    <span class="back-first-index" @click="backFirst">首页</span>
   </div>
 </template>
 
@@ -20,21 +21,28 @@ import store from '@/store.js'
 export default {
   data () {
     return {
-      pictureList: []
+      pictureList: [],
+      currentPage: 1,
+      size: 10,
+      currentIndex: 0,
     }
   },
   onShareAppMessage () {
   },
   onShow () {
     this.findAllCards()
+    this.login()
   },
   methods: {
-    findAllCards () {
+    findAllCards (currentPage = 1) {
       wx.showLoading()
-      findCards().then((res) => {
+      findCards(currentPage).then((res) => {
         wx.hideLoading()
-        this.pictureList = res
-        this.login()
+        this.pictureList = this.pictureList.concat(res.list)
+        if (res.list.length) {
+          this.currentPage = res.currentPage
+          this.size = res.size
+        }
       }).catch((err) => {
         wx.showToast({
           title: '查询失败',
@@ -80,8 +88,19 @@ export default {
         url: url
       })
     },
-    animationfinish (e) {
-      console.log(e)
+    swiperChange (e) {
+      if (e.target.source === 'touch') {
+        this.currentIndex = e.target.current
+      }
+      let currentIndex = e.target.current
+      let maxIndex = this.currentPage * this.size
+      if (currentIndex === maxIndex - 1) {
+        let currentPage = this.currentPage
+        this.findAllCards(++currentPage)
+      }
+    },
+    backFirst () {
+      this.currentIndex = 0
     }
   },
   components: {
@@ -107,6 +126,16 @@ export default {
       left: 10px;
       right: 10px;
     }
+  }
+  .back-first-index {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    font-size: 14px;
+    color: #999;
+    padding: 3px 5px;
+    border-radius: 2px; /*px*/
+    border: 1px solid #999; /*px*/
   }
 }
 </style>

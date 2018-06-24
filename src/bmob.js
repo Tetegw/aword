@@ -138,7 +138,11 @@ export function findCards (currentPage = 1, size = 10) {
     query.skip(size * (currentPage - 1))
     query.find().then((res) => {
       console.log('bmob_findCards===>', res)
-      resolve(res)
+      resolve({
+        list: res,
+        currentPage,
+        size
+      })
     }).catch((err) => {
       reject(err)
     })
