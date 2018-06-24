@@ -91,7 +91,9 @@ export default {
         success (res) {
           switch (_this.ActionSheetList[res.tapIndex]) {
             case '作者':
-              console.log('作者页')
+              wx.navigateTo({
+                url: `/pages/author/main?id=${_this.PictureInfo.userId}`
+              })
               break;
             case '收藏':
               _this.collect()

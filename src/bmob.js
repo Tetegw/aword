@@ -71,6 +71,20 @@ export function currentUser () {
   })
 }
 
+// 获取某个用户信息
+export function getOneUserInfo (objectId) {
+  return new Promise((resolve, reject) => {
+    const query = Bmob.Query('_User')
+    query.get(objectId).then((res) => {
+      console.log('bmob_getOneUserInfo====>', res)
+      resolve(res)
+    }).catch((err) => {
+      reject(err)
+    })
+  })
+}
+
+
 // 上传文件
 export function uploadFile (item, objectId) {
   return new Promise((resolve, reject) => {
@@ -167,7 +181,7 @@ export function findCollectCards (currentPage = 1, size = 10) {
           res = res.filter((item) => {
             return item.privacy === false
           })
-          console.log('bmob_findCollectCards===>', res)          
+          console.log('bmob_findCollectCards===>', res)
           resolve(res)
         }).catch((err) => {
           reject(err)
@@ -183,7 +197,7 @@ export function findCollectCards (currentPage = 1, size = 10) {
 
 
 // 获取当前用户的收藏
-export function findOneCollect(userId, cardId) {
+export function findOneCollect (userId, cardId) {
   return new Promise((resolve, reject) => {
     const collect = Bmob.Query('collect')
     collect.equalTo('userId', '==', userId)
@@ -274,7 +288,7 @@ export function createCollect (cardId) {
 }
 
 // 取消收藏某卡片
-export function deleteCollect(objectId) {
+export function deleteCollect (objectId) {
   return new Promise((resolve, reject) => {
     currentUser().then((res) => {
       const collect = Bmob.Query('collect')
@@ -305,7 +319,7 @@ export function deleteCard (objectId) {
 
 
 // 设置隐私或公开
-export function setCardPrivacy(objectId, flag) {
+export function setCardPrivacy (objectId, flag) {
   return new Promise((resolve, reject) => {
     console.log('objectId', objectId)
     const card = Bmob.Query('card')

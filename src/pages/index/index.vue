@@ -75,7 +75,7 @@ export default {
       })
     },
     selectPicture (item) {
-      let url = `../showPicture/main?id=${item.objectId}`
+      let url = `/pages/showPicture/main?id=${item.objectId}`
       wx.navigateTo({
         url: url
       })

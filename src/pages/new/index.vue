@@ -126,7 +126,7 @@ export default {
         privacy: this.privacy || false
       })
       wx.navigateTo({
-        url: '../editPicture/main'
+        url: '/pages/editPicture/main'
       })
     },
     clearAll () {

@@ -17,7 +17,6 @@ const store = new Vuex.Store({
       privacy: false
     },
     labelList: [],
-    cardObject: {},
     createdCardSuccess: false
   },
   mutations: {
@@ -33,10 +32,6 @@ const store = new Vuex.Store({
     },
     storeLabelList (state, payload) {
       state.labelList = payload
-    },
-    storeCardObject (state, payload) {
-      let labelInfo = `card_${payload.labelInfo}`
-      state.cardObject = Object.assign({}, state.cardObject, { [labelInfo]: payload.card })
     },
     storeCreatedCardSuccess (state, payload) {
       state.createdCardSuccess = payload
