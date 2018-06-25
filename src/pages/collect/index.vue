@@ -1,8 +1,6 @@
 <template>
   <div class="collect-wrapper">
-    <scroll-view scroll-y style="height: 100%" @scroll="scrollViewScroll">
-      <v-Works :currentCardList="collectList"></v-Works>
-    </scroll-view>
+    <v-Works :currentCardList="collectList" :noMore="noMore"></v-Works>
   </div>
 </template>
 
@@ -13,17 +11,46 @@ import Works from '@/components/works.vue'
 export default {
   data () {
     return {
-      collectList: []
+      collectList: [],
+      currentPage: 1,
+      noMore: false,
+      loadingCard: false
     }
   },
   onShow () {
     this.getCollect()
   },
+  onHide () {
+    this.currentPage = 1
+    this.noMore = false
+    this.loadingCard = false
+  },
+  onReachBottom () {
+    if (this.loadingCard) {
+      return
+    }
+    if (!this.noMore) {
+      this.loadingCard = true
+      let currentPage = this.currentPage
+      this.getCollect(++currentPage)
+    }
+  },
   methods: {
-    getCollect () {
+    getCollect (currentPage = 1) {
       wx.showLoading()
-      findCollectCards().then((res) => {
-        this.collectList = res
+      findCollectCards(currentPage).then((res) => {
+        if (currentPage === 1) {
+          this.collectList = res.list
+        } else {
+          this.collectList = this.collectList.concat(res.list)
+        }
+        if (res.list.length) {
+          this.currentPage = res.currentPage
+        } else {
+          console.log('已无再多数据')
+          this.noMore = true
+        }
+        this.loadingCard = false
         wx.hideLoading()
       }).catch((err) => {
         wx.showToast({
@@ -42,5 +69,10 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less">
+.collect-wrapper {
+  .works-com-wrapper {
+    padding-bottom: 20px;
+  }
+}
 </style>

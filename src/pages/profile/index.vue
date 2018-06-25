@@ -44,6 +44,9 @@ export default {
       }
     })
   },
+  onReachBottom () {
+    console.log('触底')
+  },
   onShow () {
     // APP.vue中一定是登录了，这里获取用户信息
     // 1. 没有头像，用户名，要求授权

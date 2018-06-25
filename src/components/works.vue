@@ -6,7 +6,9 @@
       </li>
     </ul>
     <div class="empty" v-show="!currentCardList.length">- 空空如也 -</div>
-    <div class="empty" v-show="currentCardList.length && noMore">- 无更多数据 -</div>
+    <div class="empty">
+      <span v-show="currentCardList.length && noMore">- 无更多数据 -</span>
+    </div>
   </div>
 </template>
 
@@ -83,9 +85,11 @@ export default {
     }
   }
   .empty {
+    height: 30px;
     text-align: center;
-    font-size: 14px;
     color: #aaa;
+    font-size: 14px;
+    line-height: 30px;
   }
 }
 </style>

@@ -186,7 +186,11 @@ export function findCollectCards (currentPage = 1, size = 10) {
             return item.privacy === false
           })
           console.log('bmob_findCollectCards===>', res)
-          resolve(res)
+          resolve({
+            list: res,
+            currentPage: currentPage,
+            size: size
+          })
         }).catch((err) => {
           reject(err)
         })
@@ -232,27 +236,35 @@ export function getUserLabels (userId) {
 // 获取某用户某栏目的的卡片数据
 export function getUserLabelCard (userId, labelInfo = '默认', currentPage = 1, size = 10) {
   return new Promise((resolve, reject) => {
-    console.log('currentPage, currentPage', currentPage)
-    getUserLabels(userId).then((res) => {
-      let labelId = ''
-      for (let i = 0; i < res.length; i++) {
-        let item = res[i]
-        if (item.labelInfo === labelInfo) {
-          labelId = item.objectId
+    currentUser().then((res) => {
+      let currentUserId = res.objectId
+      getUserLabels(userId).then((res) => {
+        let labelId = ''
+        for (let i = 0; i < res.length; i++) {
+          let item = res[i]
+          if (item.labelInfo === labelInfo) {
+            labelId = item.objectId
+          }
         }
-      }
-      const card = Bmob.Query('card')
-      card.equalTo('labelId', '==', labelId)
-      card.order('-createdAt')
-      card.limit(size)
-      card.skip(size * (currentPage - 1))
-      card.find().then((result) => {
-        console.log('bmob_getUserLabelCard===>', result)
-        resolve({
-          label: res,
-          card: result,
-          currentPage: currentPage,
-          size: size
+        const card = Bmob.Query('card')
+        card.equalTo('labelId', '==', labelId)
+        if (currentUserId !== userId) {
+          // 不是自己的主页，看不到隐私
+          card.equalTo('privacy', '!=', true)
+        }
+        card.order('-createdAt')
+        card.limit(size)
+        card.skip(size * (currentPage - 1))
+        card.find().then((result) => {
+          console.log('bmob_getUserLabelCard===>', result)
+          resolve({
+            label: res,
+            card: result,
+            currentPage: currentPage,
+            size: size
+          })
+        }).catch((err) => {
+          reject(err)
         })
       }).catch((err) => {
         reject(err)

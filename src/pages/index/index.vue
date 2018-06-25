@@ -1,6 +1,6 @@
 <template>
   <div class="index-wrapper">
-    <swiper class="swiper" @animationfinish="swiperChange" :current="currentIndex">
+    <swiper class="swiper" @touchstart="touchstart" @touchend="touchend" @animationfinish="swiperChange" :current="currentIndex">
       <block v-for="(item, index) in pictureList" :key="index">
         <swiper-item @click="selectPicture(item)">
           <div class="swiper-item">
@@ -24,18 +24,20 @@ export default {
       currentPage: 1,
       size: 10,
       currentIndex: 0,
+      startClientX: 0,
     }
   },
   onShareAppMessage () {
   },
-  onShow () {
-    this.currentIndex = 0   // 重置
+  onLoad () {
     this.findAllCards()
     this.login()
   },
   methods: {
     findAllCards (currentPage = 1) {
-      wx.showLoading()
+      wx.showLoading({
+        title: '加载中...'
+      })
       findCards(currentPage).then((res) => {
         wx.hideLoading()
         if (currentPage === 1) {
@@ -103,6 +105,17 @@ export default {
       if (currentIndex === maxIndex - 1) {
         let currentPage = this.currentPage
         this.findAllCards(++currentPage)
+      }
+    },
+    touchstart (e) {
+      this.startClientX = Number(e.mp.changedTouches[0].clientX)
+    },
+    touchend (e) {
+      let endClientX = Number(e.mp.changedTouches[0].clientX)
+      let deletar = endClientX - this.startClientX
+      if (!this.currentIndex && deletar > 0) {
+        console.log('刷新')
+        this.findAllCards()
       }
     }
   },

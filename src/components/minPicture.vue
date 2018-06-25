@@ -1,6 +1,7 @@
 
 <template>
-  <div class="picture" :class="PictureInfo_.picClass" id="picture">
+  <div class="min-picture-com-wrapper" :class="PictureInfo_.picClass" id="picture">
+    <span class="privacy" v-if="PictureInfo_.privacy">私</span>
     <div class="upload">
       <img mode="aspectFill" class="img" :src="PictureInfo_.imgUrl" />
     </div>
@@ -46,13 +47,14 @@ export default {
 
 <style scoped lang="less">
 /*355px 134px*/
-.picture {
+.min-picture-com-wrapper {
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
   background: #fff;
+  overflow: hidden;
   &.default {
     .upload {
       width: 100%;
@@ -149,6 +151,21 @@ export default {
       position: absolute;
       top: 96px;
     }
+  }
+  .privacy {
+    width: 80px;
+    height: 30px;
+    background: #999;
+    color: #fff;
+    position: absolute;
+    transform: rotate(-45deg) translate(18px, 30px);
+    font-size: 12px;
+    text-align: center;
+    padding-top: 2px;
+    box-sizing: border-box;
+    z-index: 2;
+    bottom: 0;
+    right: 0;
   }
   .content {
     position: absolute;
