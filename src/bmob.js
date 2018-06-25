@@ -232,6 +232,7 @@ export function getUserLabels (userId) {
 // 获取某用户某栏目的的卡片数据
 export function getUserLabelCard (userId, labelInfo = '默认', currentPage = 1, size = 10) {
   return new Promise((resolve, reject) => {
+    console.log('currentPage, currentPage', currentPage)
     getUserLabels(userId).then((res) => {
       let labelId = ''
       for (let i = 0; i < res.length; i++) {
@@ -249,7 +250,9 @@ export function getUserLabelCard (userId, labelInfo = '默认', currentPage = 1,
         console.log('bmob_getUserLabelCard===>', result)
         resolve({
           label: res,
-          card: result
+          card: result,
+          currentPage: currentPage,
+          size: size
         })
       }).catch((err) => {
         reject(err)

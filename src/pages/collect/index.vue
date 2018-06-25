@@ -1,6 +1,8 @@
 <template>
   <div class="collect-wrapper">
-    <v-Works :currentCardList="collectList"></v-Works>
+    <scroll-view scroll-y style="height: 100%" @scroll="scrollViewScroll">
+      <v-Works :currentCardList="collectList"></v-Works>
+    </scroll-view>
   </div>
 </template>
 
@@ -30,6 +32,9 @@ export default {
         })
       })
     },
+    scrollViewScroll () {
+      console.log('111')
+    }
   },
   components: {
     'v-Works': Works

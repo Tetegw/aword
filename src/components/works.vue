@@ -6,6 +6,7 @@
       </li>
     </ul>
     <div class="empty" v-show="!currentCardList.length">- 空空如也 -</div>
+    <div class="empty" v-show="currentCardList.length && noMore">- 无更多数据 -</div>
   </div>
 </template>
 
@@ -20,6 +21,10 @@ export default {
       default () {
         return []
       }
+    },
+    noMore: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -53,7 +58,7 @@ export default {
 
 <style scoped lang="less">
 .works-com-wrapper {
-  padding: 20px;
+  padding: 20px 20px 50px 20px;
   ul.works-list {
     display: flex;
     flex-wrap: wrap;
