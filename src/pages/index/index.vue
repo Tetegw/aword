@@ -23,8 +23,7 @@ export default {
       pictureList: [],
       currentPage: 1,
       size: 10,
-      currentIndex: 0,
-      startClientX: 0,
+      currentIndex: 0
     }
   },
   onShareAppMessage () {
@@ -108,12 +107,12 @@ export default {
       }
     },
     touchstart (e) {
-      this.startClientX = Number(e.mp.changedTouches[0].clientX)
+      this.startClientX = e.mp.changedTouches[0].clientX
     },
     touchend (e) {
-      let endClientX = Number(e.mp.changedTouches[0].clientX)
+      let endClientX = e.mp.changedTouches[0].clientX
       let deletar = endClientX - this.startClientX
-      if (!this.currentIndex && deletar > 0) {
+      if (!this.currentIndex && deletar > 60) {
         console.log('刷新')
         this.findAllCards()
       }
