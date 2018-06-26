@@ -25,7 +25,7 @@ export default {
       backgroundTextStyle: 'dark',
       backgroundColorTop: '#fff',
       navigationBarBackgroundColor: '#fff',
-      navigationBarTitleText: 'WeChat',
+      navigationBarTitleText: '一言以蔽之',
       navigationBarTextStyle: 'black',
     },
     tabBar: {

@@ -20,6 +20,12 @@ export default {
   onShow () {
     this.getCollect()
   },
+  onShareAppMessage () {
+    return {
+      title: '一言以蔽之',
+      path: '/pages/index/main'
+    }
+  },
   onHide () {
     this.currentPage = 1
     this.noMore = false

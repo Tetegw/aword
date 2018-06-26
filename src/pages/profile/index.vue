@@ -55,6 +55,12 @@ export default {
     this.noMore = false
     this.loadingCard = false
   },
+  onShareAppMessage () {
+    return {
+      title: '一言以蔽之',
+      path: '/pages/index/main'
+    }
+  },
   computed: {
     userInfo () {
       return store.state.userInfo

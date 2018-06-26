@@ -34,10 +34,10 @@ export default {
       fontClass: 'vertical-left',
     }
   },
-  onShareAppMessage: function (res) {
+  onShareAppMessage () {
     return {
       title: '一言以蔽之',
-      path: 'pages/picture/main'
+      path: 'pages/index/main'
     }
   },
   computed: {

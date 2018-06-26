@@ -38,6 +38,12 @@ export default {
     this.getUserInfo(options.id)
     this.getLabels(options.id)
   },
+  onShareAppMessage () {
+    return {
+      title: '一言以蔽之',
+      path: '/pages/index/main'
+    }
+  },
   onShow () {
     this.currentPage = 1
     this.noMore = false

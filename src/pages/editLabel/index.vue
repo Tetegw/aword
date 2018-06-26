@@ -36,6 +36,12 @@ export default {
   onShow () {
     this.getLabels()
   },
+  onShareAppMessage () {
+    return {
+      title: '一言以蔽之',
+      path: '/pages/index/main'
+    }
+  },
   computed: {
     userInfo () {
       return store.state.userInfo

@@ -35,6 +35,12 @@ export default {
     this.findAllCards()
     this.login()
   },
+  onShareAppMessage () {
+    return {
+      title: '一言以蔽之',
+      path: '/pages/index/main'
+    }
+  },
   onShow () {
     if (this.deleteCardSuccess) {
       this.findAllCards()

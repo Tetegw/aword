@@ -28,6 +28,10 @@ export default {
     this.PictureInfo = {}
   },
   onShareAppMessage () {
+    return {
+      title: '一言以蔽之',
+      path: '/pages/index/main'
+    }
   },
   methods: {
     getPictureInfo (objectId) {
