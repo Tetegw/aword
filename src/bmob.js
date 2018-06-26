@@ -17,6 +17,7 @@ export function auth () {
 // 创建标签
 export function createLable (labelInfo, isDefault) {
   return new Promise((resolve, reject) => {
+    if (!labelInfo.trim()) { return }
     currentUser().then((res) => {
       let userId = res.objectId
       const label = Bmob.Query('label')

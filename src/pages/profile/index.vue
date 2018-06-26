@@ -19,7 +19,6 @@
 <script>
 import { upInfo, getUserLabelCard, currentUser, createLable, getUserLabels } from '@/bmob.js'
 import store from '@/store.js'
-
 import Labels from '@/components/labels.vue'
 import Works from '@/components/works.vue'
 
@@ -80,8 +79,8 @@ export default {
           store.commit('storeHasUserInfo', true)
         }
         store.commit('storeUserInfo', res)
-        this.getSomeCard(res.objectId, this.ChooseItem)
         wx.hideLoading()
+        this.getSomeCard(res.objectId, this.ChooseItem)
       }).catch((err) => {
         wx.hideLoading()
         console.log('第三方用户信息获取失败', err)

@@ -10,13 +10,10 @@
         <li v-for="(item, index) in modeList" :key="index" @click="changeMode(index, item.type)">{{item.value}}</li>
       </ul>
     </div>
-    <v-Confirm :showModel="showModel" content="确定保存此卡片吗" confirm="确定" @emitHideModel="emitHideModel" @emitConfirm="emitConfirm"></v-Confirm>
   </div>
 </template>
 
 <script>
-import Confirm from '@/components/confirm.vue'
-
 const mode = ['图片模式', '文字模式']
 const modeList = {
   modeList_0: [{ type: 'pic', value: '矩形' }, { type: 'pic', value: '圆形' }, { type: 'pic', value: '斜切' }],
@@ -27,8 +24,7 @@ export default {
     return {
       mode,
       checkedMode: false,
-      modeList: [],
-      showModel: false
+      modeList: []
     }
   },
   methods: {
@@ -40,18 +36,17 @@ export default {
       this.$emit('changeMode', index, type)
     },
     confirm () {
-      this.showModel = true
-    },
-    emitHideModel () {
-      this.showModel = false
-    },
-    emitConfirm () {
-      this.$emit('emitConfirm')
-      this.showModel = false
+      let _this = this
+      wx.showModal({
+        title: '提示',
+        content: '确定保存此卡片吗？',
+        success (res) {
+          if (res.confirm) {
+            _this.$emit('emitConfirm')
+          }
+        }
+      })
     }
-  },
-  components: {
-    'v-Confirm': Confirm
   }
 }
 </script>

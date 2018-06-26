@@ -12,7 +12,6 @@
 </template>
 
 <script>
-import Confirm from '@/components/confirm.vue'
 export default {
   data () {
     return {
@@ -49,9 +48,6 @@ export default {
         url: '/pages/editLabel/main'
       })
     },
-  },
-  components: {
-    'v-Confirm': Confirm
   }
 }
 </script>

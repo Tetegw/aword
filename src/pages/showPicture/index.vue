@@ -10,6 +10,7 @@
 <script>
 import { createCollect, currentUser, deleteCard, findOneCards, findOneCollect, deleteCollect, setCardPrivacy } from '@/bmob.js'
 import Picture from '@/components/picture.vue'
+import store from '@/store.js'
 
 export default {
   data () {
@@ -194,6 +195,7 @@ export default {
           title: '删除成功',
           icon: 'none'
         })
+        store.commit('storeDeleteCardSuccess', true)
         wx.navigateBack()
       }).catch((err) => {
         wx.showToast({

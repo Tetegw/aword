@@ -17,7 +17,9 @@ const store = new Vuex.Store({
       privacy: false
     },
     labelList: [],
-    createdCardSuccess: false
+    createdCardSuccess: false,
+    createdCardSuccess_: false,
+    deleteCardSuccess: false
   },
   mutations: {
     storeUserInfo (state, payload) {
@@ -35,6 +37,12 @@ const store = new Vuex.Store({
     },
     storeCreatedCardSuccess (state, payload) {
       state.createdCardSuccess = payload
+    },
+    storeCreatedCardSuccess_ (state, payload) {
+      state.createdCardSuccess_ = payload
+    },
+    storeDeleteCardSuccess (state, payload) {
+      state.deleteCardSuccess = payload
     }
   }
 })

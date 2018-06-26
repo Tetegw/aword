@@ -26,11 +26,26 @@ export default {
       currentIndex: 0
     }
   },
-  onShareAppMessage () {
+  computed: {
+    deleteCardSuccess () {
+      return store.state.deleteCardSuccess
+    },
+    createdCardSuccess_ () {
+      return store.state.createdCardSuccess_
+    }
   },
   onLoad () {
     this.findAllCards()
     this.login()
+  },
+  onShow () {
+    console.log(this.deleteCardSuccess)
+    console.log(this.createdCardSuccess_)
+    if (this.deleteCardSuccess || this.createdCardSuccess_) {
+      this.findAllCards()
+      store.commit('storeDeleteCardSuccess', false)
+      store.commit('storeCreatedCardSuccess_', false)
+    }
   },
   methods: {
     findAllCards (currentPage = 1) {

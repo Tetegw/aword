@@ -83,6 +83,13 @@ export default {
     },
     addLabel () {
       let _this = this
+      if (!this.inputLabel.trim()) {
+        wx.showToast({
+          title: '请输入栏目',
+          icon: 'none'
+        })
+        return
+      }
       wx.showModal({
         title: '提示',
         content: `确认添加 ${this.inputLabel} 栏目？`,
