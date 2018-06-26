@@ -135,8 +135,10 @@ export default {
         }
         if (res.card.length) {
           this.currentPage = res.currentPage
+          if (this.currentCardList.length % 10) {
+            this.noMore = true
+          }
         } else {
-          console.log('已无再多数据')
           this.noMore = true
         }
         this.loadingCard = false

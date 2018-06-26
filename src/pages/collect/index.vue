@@ -46,6 +46,9 @@ export default {
         }
         if (res.list.length) {
           this.currentPage = res.currentPage
+          if (this.collectList.length % 10) {
+            this.noMore = true
+          }
         } else {
           console.log('已无再多数据')
           this.noMore = true
