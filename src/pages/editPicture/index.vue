@@ -310,7 +310,7 @@ export default {
         width: 70%;
         text-align: left;
         i {
-          display: none;
+          border: 2px solid transparent; /*px*/
         }
       }
       &.across-center {
@@ -318,7 +318,7 @@ export default {
         top: 260px;
         text-align: center;
         i {
-          display: none;
+          border: 2px solid transparent; /*px*/
         }
       }
       &.across-right {
@@ -326,7 +326,7 @@ export default {
         top: 260px;
         text-align: right;
         i {
-          display: none;
+          border: 2px solid transparent; /*px*/
         }
       }
       &.vertical-right {
@@ -337,7 +337,6 @@ export default {
           position: absolute;
           right: 5px; /*px*/
           top: -23px; /*px*/
-          content: "";
           width: 10px;
           height: 10px;
           border-radius: 50%;
@@ -352,7 +351,6 @@ export default {
           position: absolute;
           left: 5px; /*px*/
           top: -23px; /*px*/
-          content: "";
           width: 10px;
           height: 10px;
           border-radius: 50%;
