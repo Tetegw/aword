@@ -1,15 +1,13 @@
 
 <template>
   <div class="labels-com-wrapper">
-    <ul class="tab-wrapper" :class="{'fixed': fixed}" id="tab-wrapper">
+    <ul class="tab-wrapper" id="tab-wrapper">
       <li v-for="(item, index) in list" :key="index" :class="{'active': currentLabelIndex === index}" @click="checkedLabel(index, item.labelInfo)">
         <span>{{item.labelInfo}}</span>
         <i></i>
       </li>
-      <li @click="clickAddBtn" v-if="addBtn">+</li>
+      <li @click="clickAddBtn" v-if="addBtn">···</li>
     </ul>
-    <v-Confirm :showModel="showModel" title="请输入新的标签" confirm="保存" @emitHideModel="emitHideModel" @emitConfirm="emitConfirm">
-    </v-Confirm>
   </div>
 </template>
 
@@ -19,9 +17,7 @@ export default {
   data () {
     return {
       list: this.labelList,
-      currentLabelIndex: 0,
-      showModel: false,
-      fixed: false
+      currentLabelIndex: 0
     }
   },
   props: {
@@ -49,19 +45,10 @@ export default {
     },
     // 点击+，显示弹窗，emit显示弹窗事件
     clickAddBtn () {
-      this.showModel = true
-      this.$emit('emitShowModel')
+      wx.navigateTo({
+        url: '/pages/editLabel/main'
+      })
     },
-    // 隐藏弹窗，emit隐藏弹窗的事件
-    emitHideModel () {
-      this.showModel = false
-      this.$emit('emitHideModel')
-    },
-    // TODO: 确定数据，隐藏弹窗，emit出确定的数据和索引
-    emitConfirm (payload) {
-      this.$emit('emitConfirm', payload)
-      this.showModel = false
-    }
   },
   components: {
     'v-Confirm': Confirm

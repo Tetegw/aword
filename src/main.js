@@ -19,6 +19,7 @@ export default {
       'pages/editPicture/main',
       'pages/showPicture/main',
       'pages/author/main',
+      'pages/editLabel/main',
     ],
     window: {
       backgroundTextStyle: 'dark',

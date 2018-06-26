@@ -8,7 +8,7 @@
       <div class="nickname">{{userInfo.nickName}}</div>
     </div>
     <div class="labels">
-      <v-Labels @emitChooseItem="emitChooseItem" @emitConfirm="emitConfirm" :labelList="labelList"></v-Labels>
+      <v-Labels @emitChooseItem="emitChooseItem" :labelList="labelList"></v-Labels>
     </div>
     <scroll-view scroll-y class="scroll-view-wrapper" @scroll="scrollViewScroll" @scrolltolower="scrollViewTolower" :lower-threshold="130">
       <v-Works :currentCardList="currentCardList" :noMore="noMore"></v-Works>
@@ -105,27 +105,8 @@ export default {
       this.currentPage = 1
       this.getSomeCard(this.userInfo.objectId, labelInfo)
     },
-    emitConfirm (payload) {
-      wx.showLoading()
-      createLable(payload).then((res) => {
-        // 创建了，刷新label
-        let userId = this.userInfo.objectId
-        getUserLabels(userId).then((res) => {
-          wx.hideLoading()
-          store.commit('storeLabelList', res)
-        }).catch((err) => {
-          wx.hideLoading()
-          console.log('获取用户列表失败', err)
-        })
-      }).catch((err) => {
-        let title = err === '该分类已存在' ? err : '创建失败'
-        wx.showToast({
-          title: title,
-          icon: 'none'
-        })
-      })
-    },
     getSomeCard (userId, labelInfo, currentPage = 1) {
+      wx.showLoading()
       getUserLabelCard(userId, labelInfo, currentPage).then((res) => {
         store.commit('storeLabelList', res.label)
         if (currentPage === 1) {
@@ -142,6 +123,7 @@ export default {
           this.noMore = true
         }
         this.loadingCard = false
+        wx.hideLoading()
       }).catch((err) => {
         console.log(err)
         wx.showToast({

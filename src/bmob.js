@@ -46,6 +46,37 @@ export function createLable (labelInfo, isDefault) {
   })
 }
 
+// 删除标签，删除此便签下卡片
+export function deleteLabel (objectId, userId) {
+  return new Promise((resolve, reject) => {
+    currentUser().then((res) => {
+      if (userId !== res.objectId) { return }
+      let label = Bmob.Query('label')
+      label.destroy(objectId).then((res) => {
+        let card = Bmob.Query('card')
+        card.equalTo('labelId', '==', objectId)
+        card.equalTo('userId', '==', userId)
+        card.limit(50)
+        card.find().then((todos) => {
+          if (!todos.length) {
+            return
+          }
+          todos.destroyAll().then((res) => {
+            console.log(res, 'ok')
+          }).catch(err => {
+            reject(err)
+          })
+        })
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    }).catch((err) => {
+      reject(err)
+    })
+  })
+}
+
 // 更新用户信息
 export function upInfo (userInfo) {
   return new Promise((resolve, reject) => {

@@ -178,9 +178,8 @@ export default {
     deleteOneCard () {
       let _this = this
       wx.showModal({
+        title: '提示',
         content: '确定要删除吗?',
-        cancelColor: '#999',
-        confirmColor: '#444',
         success (res) {
           if (res.confirm) {
             _this.deleteCardHandle()

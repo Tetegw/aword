@@ -34,9 +34,7 @@ export default {
   },
   methods: {
     findAllCards (currentPage = 1) {
-      wx.showLoading({
-        title: '加载中...'
-      })
+      wx.showLoading()
       findCards(currentPage).then((res) => {
         wx.hideLoading()
         if (currentPage === 1) {
