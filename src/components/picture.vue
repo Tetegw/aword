@@ -183,7 +183,7 @@ export default {
       }
     }
     &.vertical-right {
-      height: 195px;
+      height: 200px;
       writing-mode: vertical-rl;
       letter-spacing: 1px; /*px*/
       i {
@@ -198,7 +198,7 @@ export default {
       }
     }
     &.vertical-left {
-      height: 195px;
+      height: 200px;
       writing-mode: vertical-lr;
       letter-spacing: 1px; /*px*/
       i {
@@ -221,11 +221,11 @@ export default {
     -webkit-font-smoothing: antialiased;
     text-align: center;
     position: absolute;
-    bottom: 5%;
+    bottom: 4%;
     width: 100%;
     vertical-align: middle;
     &.btm11 {
-      bottom: 11%;
+      bottom: 10%;
     }
     i {
       display: inline-block;
