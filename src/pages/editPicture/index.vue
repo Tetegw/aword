@@ -119,7 +119,6 @@ export default {
         privacy: false
       })
       store.commit('storeCreatedCardSuccess', true)
-      store.commit('storeCreatedCardSuccess_', true)
       wx.switchTab({
         url: '/pages/profile/main'
       })

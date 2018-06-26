@@ -29,9 +29,6 @@ export default {
   computed: {
     deleteCardSuccess () {
       return store.state.deleteCardSuccess
-    },
-    createdCardSuccess_ () {
-      return store.state.createdCardSuccess_
     }
   },
   onLoad () {
@@ -39,12 +36,9 @@ export default {
     this.login()
   },
   onShow () {
-    console.log(this.deleteCardSuccess)
-    console.log(this.createdCardSuccess_)
-    if (this.deleteCardSuccess || this.createdCardSuccess_) {
+    if (this.deleteCardSuccess) {
       this.findAllCards()
       store.commit('storeDeleteCardSuccess', false)
-      store.commit('storeCreatedCardSuccess_', false)
     }
   },
   methods: {
