@@ -1,6 +1,6 @@
 # aword
 
-> A Mpvue project
+基于mpvue的个人小程序项目
 
 
 
@@ -8,8 +8,6 @@
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | ![3](https://github.com/Tetegw/aword/blob/master/static/readme/3.jpg) | ![4](https://github.com/Tetegw/aword/blob/master/static/readme/4.jpg) |
 | ![5](https://github.com/Tetegw/aword/blob/master/static/readme/5.jpg) |                                                              |
-
-
 
 
 ## Build Setup
