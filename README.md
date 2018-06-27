@@ -2,11 +2,11 @@
 
 > A Mpvue project
 
-![1](https://github.com/Tetegw/aword/blob/master/static/readme/1.png)
-![2](https://github.com/Tetegw/aword/blob/master/static/readme/2.png)
-![3](https://github.com/Tetegw/aword/blob/master/static/readme/3.png)
-![4](https://github.com/Tetegw/aword/blob/master/static/readme/4.png)
-![5](https://github.com/Tetegw/aword/blob/master/static/readme/5.png)
+
+| [1](https://github.com/Tetegw/aword/blob/master/static/readme/1.jpg) | [2](https://github.com/Tetegw/aword/blob/master/static/readme/2.jpg) |
+| ---------------------------------------- | ---------------------------------------- |
+| ![3](https://github.com/Tetegw/aword/blob/master/static/readme/3.jpg)| ![4](https://github.com/Tetegw/aword/blob/master/static/readme/4.jpg) |
+|![5](https://github.com/Tetegw/aword/blob/master/static/readme/5.jpg)||
 
 
 ## Build Setup
