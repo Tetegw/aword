@@ -21,6 +21,9 @@ export default {
       collectObjectId: ''
     }
   },
+  onShow () {
+    this.showMenu = true
+  },
   onLoad (option) {
     this.getPictureInfo(option.id)
   },
@@ -258,13 +261,3 @@ export default {
 }
 </style>
 
-
-<style lang="less">
-.show-picture-wrapper {
-  .v-Picture-wrapper {
-    .content {
-      font-size: 16px; /*px*/
-    }
-  }
-}
-</style>
