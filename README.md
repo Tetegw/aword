@@ -2,6 +2,13 @@
 
 > A Mpvue project
 
+![1](https://github.com/Tetegw/aword/blob/master/static/readme/1.png)
+![2](https://github.com/Tetegw/aword/blob/master/static/readme/2.png)
+![3](https://github.com/Tetegw/aword/blob/master/static/readme/3.png)
+![4](https://github.com/Tetegw/aword/blob/master/static/readme/4.png)
+![5](https://github.com/Tetegw/aword/blob/master/static/readme/5.png)
+
+
 ## Build Setup
 
 ``` bash
@@ -21,7 +28,4 @@ npm run build --report
 For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
 
-TODO: 作者页
-TODO: 上拉加载
-TODO: 删除标签
 
